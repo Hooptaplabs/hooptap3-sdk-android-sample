@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:gravity="center_vertical" >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="HOOPTAP"
+        android:id="@+id/textView2"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="50dip"
+        android:textColor="@color/colorPrimaryDark"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Sample para interactuar con el SDK"
+        android:id="@+id/textView3"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/textView2"
+        android:layout_marginBottom="20dip"
+         />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="LOGIN"
+        android:id="@+id/login"
+        android:layout_marginLeft="25dip"
+        android:textColor="@color/white"
+        android:background="@drawable/boton"
+        android:layout_marginRight="25dip"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/textView3"
+         />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dip"
+        android:layout_marginRight="25dip"
+        android:text="REGISTER"
+        android:id="@+id/register"
+        android:textColor="@color/white"
+        android:background="@drawable/boton"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/login"
+        android:layout_marginTop="25dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:src="@drawable/hooptap"
+        android:visibility="gone"
+        android:layout_above="@+id/textView3"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="17dp"
+        android:background="#d8e9eb" />
+</RelativeLayout>

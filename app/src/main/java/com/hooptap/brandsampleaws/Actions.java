@@ -1,0 +1,351 @@
+package com.hooptap.brandsampleaws;
+
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.os.Bundle;
+import android.text.InputType;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
+import android.widget.Switch;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.datetimepicker.date.DatePickerDialog;
+import com.android.datetimepicker.time.RadialPickerLayout;
+import com.android.datetimepicker.time.TimePickerDialog;
+import com.hooptap.brandsampleaws.Adapters.SpinnerAdapterActions;
+import com.hooptap.brandsampleaws.Generic.HooptapActivity;
+import com.hooptap.brandsampleaws.Utils.Utils;
+import com.hooptap.sdkbrandclub.Api.HooptapApi;
+import com.hooptap.sdkbrandclub.Interfaces.HooptapCallback;
+import com.hooptap.sdkbrandclub.Models.Options;
+import com.hooptap.sdkbrandclub.Models.ResponseError;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.lang.reflect.Method;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+public class Actions extends HooptapActivity implements AdapterView.OnItemSelectedListener, DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+
+    @Bind(R.id.spinner)
+    Spinner spinner;
+    @Bind(R.id.matching_fields)
+    LinearLayout matching_fields;
+
+    private Calendar calendar;
+    private String str_date;
+    private EditText edit;
+
+    private HashMap<String, Object> objectsResponses = new HashMap<>();
+
+    public enum TYPES {
+        Number, Boolean, Array, String, Timestamp
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.actions);
+        ButterKnife.bind(this);
+        getSupportActionBar().setTitle("Actions");
+
+        final Spinner spinner = (Spinner) findViewById(R.id.spinner);
+        spinner.setOnItemSelectedListener(this);
+
+        final ProgressDialog pd = Utils.showProgress("Loading Actions avaibles", this);
+        HooptapApi.getActions(new Options(), new HooptapCallback<ArrayList<String>>() {
+            @Override
+            public void onSuccess(ArrayList<String> strings) {
+                SpinnerAdapterActions adapter = new SpinnerAdapterActions(Actions.this, strings);
+                spinner.setAdapter(adapter);
+                Utils.dismisProgres(pd);
+            }
+
+            @Override
+            public void onError(ResponseError responseError) {
+                Utils.createDialogError(Actions.this, responseError.getReason());
+                Utils.dismisProgres(pd);
+            }
+        });
+    }
+
+    @OnClick(R.id.btn)
+    public void llamarAccion() {
+        if (!thereAreEmptyFields()) {
+            try {
+                JSONObject jsonActionData = new JSONObject();
+                for (final HashMap.Entry<String, Object> entry : objectsResponses.entrySet()) {
+                    if (entry.getValue() instanceof EditText) {
+                        jsonActionData.put(entry.getKey(), ((EditText) entry.getValue()).getText().toString());
+                    } else {
+                        jsonActionData.put(entry.getKey(), ((Switch) entry.getValue()).isChecked());
+                    }
+                }
+                doAction(jsonActionData);
+                Log.e("JSONDATA", jsonActionData + " / " + spinner.getSelectedItem().toString());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            Toast.makeText(getApplicationContext(), "There are empty fields", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void doAction(JSONObject json) {
+        final ProgressDialog pd = Utils.showProgress("Loading rewards", Actions.this);
+        HooptapApi.doAction(HTApplication.getTinydb().getString("user_id"), json.toString(), spinner.getSelectedItem().toString(), new HooptapCallback<JSONObject>() {
+            @Override
+            public void onSuccess(JSONObject jsonObject) {
+                data = jsonObject + "";
+                Utils.dismisProgres(pd);
+                try {
+                    JSONObject response = jsonObject.getJSONObject("response");
+                    JSONArray array = response.getJSONArray("rewards");
+                    if (array.length() > 0) {
+                        JSONObject datos = array.getJSONObject(0);
+                        Utils.createDialog(Actions.this, datos.getString("message"));
+                    } else {
+                        Utils.createDialog(Actions.this, "No tiene premios esta accion");
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onError(ResponseError responseError) {
+                Utils.createDialogError(Actions.this, responseError.getReason());
+                Utils.dismisProgres(pd);
+            }
+        });
+    }
+
+    private boolean thereAreEmptyFields() {
+        for (final HashMap.Entry<String, Object> entry : objectsResponses.entrySet()) {
+            if (entry.getValue() instanceof EditText) {
+                if (((EditText) entry.getValue()).getText().toString().trim().equals("")) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        String action = adapterView.getItemAtPosition(i).toString();
+        final ProgressDialog pd = Utils.showProgress("Loading matching fields required", Actions.this);
+        HooptapApi.getMatchingFieldsForAction(action, new Options(), new HooptapCallback<HashMap<String, String>>() {
+            @Override
+            public void onSuccess(HashMap<String, String> stringStringHashMap) {
+                matching_fields.removeAllViews();
+                objectsResponses.clear();
+                for (final HashMap.Entry<String, String> entry : stringStringHashMap.entrySet()) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            View v = launchReflectionMethod(entry.getKey(), entry.getValue());
+                            matching_fields.addView(v);
+                            //Los metodos al llamarse por  reflection hace que no se puede acceder a nada
+                            //de elos ni vista ni variables, por eso debemos declarar los click especiales aqui
+                            checkSpecialInput(v);
+                        }
+                    });
+                }
+                Utils.dismisProgres(pd);
+            }
+
+            @Override
+            public void onError(ResponseError responseError) {
+                Utils.createDialogError(Actions.this, responseError.getReason());
+                Utils.dismisProgres(pd);
+            }
+        });
+    }
+
+    private void checkSpecialInput(View v) {
+        if (v.findViewById(R.id.picker) != null) {
+            edit = (EditText) v.findViewById(R.id.picker);
+            edit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View view, boolean b) {
+                    calendar = Calendar.getInstance();
+                    DatePickerDialog.newInstance(Actions.this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show(getFragmentManager(), "datePicker");
+                }
+            });
+        } else if (v.findViewById(R.id.array) != null) {
+
+            final EditText edit = (EditText) v.findViewById(R.id.array);
+            Button add = (Button) v.findViewById(R.id.add);
+            add.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(Actions.this);
+                    builder.setTitle("ADD VALUE");
+
+                    final EditText edittext = new EditText(Actions.this);
+                    edittext.setPadding(20, 20, 20, 20);
+                    builder.setView(edittext);
+
+                    builder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            if (edittext.getText().toString().trim().equals("")) {
+                                Toast.makeText(getApplicationContext(), "You need put something", Toast.LENGTH_LONG).show();
+                            } else {
+                                edit.setText(edit.getText() + edittext.getText().toString() + ",");
+                            }
+                        }
+                    });
+                    builder.create().show();
+                }
+            });
+        }
+    }
+
+    //Con este metodo crearemos un editTeext con diferente input segun el typo que nos llegue
+    private View launchReflectionMethod(String key, String type) {
+        try {
+            Class<?> c = Actions.class;
+            Object o = c.newInstance();
+            Class[] paramTypes = new Class[3];
+            paramTypes[0] = String.class;
+            paramTypes[1] = Activity.class;
+            //El array se lo pasamos por referencia porque sino modifica la copia y no el original
+            paramTypes[2] = HashMap.class;
+            //Para cuando me lleguen types del estilo Game, etc.. los tratare como un input String
+            if (!containsEnum(type)) {
+                type = "String";
+            }
+            Log.e("TYPE", type);
+
+            String methodName = "generateInput" + type;
+            Method m = c.getDeclaredMethod(methodName, paramTypes);
+            View v = (View) m.invoke(o, key, Actions.this, objectsResponses);
+            Log.e("VIEW", v.getClass().getCanonicalName());
+            return v;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static boolean containsEnum(String s) {
+        for (TYPES choice : TYPES.values())
+            if (choice.name().equalsIgnoreCase(s))
+                return true;
+        return false;
+    }
+
+    private View generateInputString(final String key, Activity context, HashMap<String, Object> hasmap) {
+
+        View action_edit = context.getLayoutInflater().inflate(R.layout.action_edit, null);
+        TextView txt_boolean = (TextView) action_edit.findViewById(R.id.txt);
+        txt_boolean.setText(key);
+        final EditText edit = (EditText) action_edit.findViewById(R.id.edit);
+        edit.setHint(key);
+        edit.setInputType(InputType.TYPE_CLASS_TEXT);
+
+        hasmap.put(key, edit);
+
+        return action_edit;
+
+    }
+
+    private View generateInputNumber(final String key, Activity context, HashMap<String, Object> hasmap) {
+
+        View action_edit = context.getLayoutInflater().inflate(R.layout.action_edit, null);
+        TextView txt_boolean = (TextView) action_edit.findViewById(R.id.txt);
+        txt_boolean.setText(key);
+        final EditText edit = (EditText) action_edit.findViewById(R.id.edit);
+        edit.setHint(key);
+        edit.setInputType(InputType.TYPE_CLASS_NUMBER);
+
+        hasmap.put(key, edit);
+
+        return action_edit;
+    }
+
+    private View generateInputBoolean(final String key, Activity context, HashMap<String, Object> hasmap) {
+
+        View action_boolean = context.getLayoutInflater().inflate(R.layout.action_boolean, null);
+        TextView txt_boolean = (TextView) action_boolean.findViewById(R.id.txt);
+        txt_boolean.setText(key);
+        Switch switch_boolean = (Switch) action_boolean.findViewById(R.id.switch_boolean);
+
+        hasmap.put(key, switch_boolean);
+
+        return action_boolean;
+    }
+
+    private View generateInputTimestamp(final String key, final Activity context, HashMap<String, Object> hasmap) {
+
+        View action_edit = context.getLayoutInflater().inflate(R.layout.action_picker, null);
+        TextView txt_boolean = (TextView) action_edit.findViewById(R.id.txt);
+        txt_boolean.setText(key);
+        EditText edit = (EditText) action_edit.findViewById(R.id.picker);
+        edit.setHint(key);
+
+        hasmap.put(key, edit);
+
+        return action_edit;
+    }
+
+    private View generateInputArray(final String key, final Activity context, HashMap<String, Object> hasmap) {
+
+        View action_edit = context.getLayoutInflater().inflate(R.layout.action_array, null);
+        TextView txt_boolean = (TextView) action_edit.findViewById(R.id.txt);
+        txt_boolean.setText(key);
+        EditText edit = (EditText) action_edit.findViewById(R.id.array);
+        edit.setHint(key);
+
+        hasmap.put(key, edit);
+
+        return action_edit;
+    }
+
+    @Override
+    public void onDateSet(DatePickerDialog dialog, int year, int monthOfYear, int dayOfMonth) {
+        str_date = dayOfMonth + "-" + monthOfYear + "-" + year;
+        TimePickerDialog.newInstance(this, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show(getFragmentManager(), "timePicker");
+
+    }
+
+    @Override
+    public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
+        str_date = str_date + " " + hourOfDay + ":" + minute;
+        Log.e("DATE", str_date);
+        DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+        try {
+            Date date = formatter.parse(str_date);
+            edit.setText(date.getTime() + "");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
+    }
+}

@@ -1,0 +1,19 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="iniciar_margen">40dip</dimen>
+    <dimen name="login_logo">100dip</dimen>
+    <dimen name="principal_foto_desplegable">83dp</dimen>
+    <dimen name="principal_altura_header">183dp</dimen>
+    <dimen name="foto_perfil">100dp</dimen>
+    <dimen name="foto_perfil_gra">260dp</dimen>
+    <dimen name="marketplace_header_height">110dp</dimen>
+    <dimen name="titulo_market">22sp</dimen>
+    <dimen name="retodetail_imagen_celda">150dp</dimen>
+    <dimen name="login_img">180dip</dimen>
+    <dimen name="badge_detail">220dip</dimen>
+    <dimen name="new_titulo">22sp</dimen>
+    <dimen name="compartir_texto">15sp</dimen>
+    <dimen name="compartir_img">50dip</dimen>
+    </resources>

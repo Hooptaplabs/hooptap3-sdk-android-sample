@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/foto_perfil_gra">
+
+        <ImageView
+            android:id="@+id/photoPrBlur"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"/>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="16dip">
+
+            <ImageView
+                android:id="@+id/photoPr"
+                android:layout_width="@dimen/foto_perfil"
+                android:layout_height="@dimen/foto_perfil"
+                android:background="@color/white"
+                android:cropToPadding="true"
+                android:padding="2dip"
+                android:scaleType="centerCrop" />
+
+            <TextView
+                android:id="@+id/username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_margin="10dip"
+                android:textAllCaps="true"
+                android:layout_marginBottom="28dip"
+                android:layout_toRightOf="@+id/photoPr"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="2dip"
+        android:background="@color/white"/>
+
+    <TextView
+        android:id="@+id/surname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dip"
+        android:textColor="@color/caption" />
+
+    <TextView
+        android:id="@+id/email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dip"
+        android:textColor="@color/caption" />
+
+    <TextView
+        android:id="@+id/id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dip"
+        android:textColor="@color/caption" />
+
+    <TextView
+        android:id="@+id/gender"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dip"
+        android:textColor="@color/caption" />
+
+</LinearLayout>

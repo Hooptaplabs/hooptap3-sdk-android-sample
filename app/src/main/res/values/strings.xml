@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Sample AWS</string>
+    <string name="error">Error</string>
+    <string name="dummy_section_text">Section %1d is just a dummy section.</string>
+
+    <string name="demo_external_activity">Demo External Activity</string>
+    <string name="demo_collection">Demo Collection</string>
+    <string name="compra">BUY</string>
+    <string name="compra_no">Congratulations!</string>
+    <string name="error_no_element">No existen elementos, vuelvelo intentar mas tarde</string>
+    <string name="logout">LogOut</string>
+    <string name="show_json">Show Json</string>
+    <string name="wait">Please Wait</string>
+</resources>
