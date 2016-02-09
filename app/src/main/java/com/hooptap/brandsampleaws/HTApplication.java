@@ -17,10 +17,11 @@ public class HTApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        new Hooptap.Builder(this)  // Create builder
+        Hooptap hp = new Hooptap.Builder(this)  // Create builder
                 .setApiKey("46576686f6f707461702e627")
                 .enableDebug(true)              // Enable debug mode
                 .build();
+
         instance = HTApplication.this;
     }
 

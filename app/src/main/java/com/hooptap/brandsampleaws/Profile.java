@@ -11,6 +11,7 @@ import com.hooptap.brandsampleaws.Utils.BlurTransformation;
 import com.hooptap.brandsampleaws.Utils.Utils;
 import com.hooptap.sdkbrandclub.Api.HooptapApi;
 import com.hooptap.sdkbrandclub.Interfaces.HooptapCallback;
+import com.hooptap.sdkbrandclub.Models.HooptapUser;
 import com.hooptap.sdkbrandclub.Models.ResponseError;
 import com.squareup.picasso.Picasso;
 
@@ -44,11 +45,11 @@ public class Profile extends HooptapActivity {
 
         final ProgressDialog pd = Utils.showProgress("Loading Profile", this);
 
-        HooptapApi.getProfile(HTApplication.getTinydb().getString("user_id"), new HooptapCallback<JSONObject>() {
+        HooptapApi.getProfile(HTApplication.getTinydb().getString("user_id"), new HooptapCallback<HooptapUser>() {
             @Override
-            public void onSuccess(JSONObject jsonObject) {
-                data = jsonObject + "";
-                fillProfile(jsonObject);
+            public void onSuccess(HooptapUser user) {
+                //data = jsonObject + "";
+                fillProfile(user);
                 Utils.dismisProgres(pd);
             }
 
@@ -60,19 +61,17 @@ public class Profile extends HooptapActivity {
         });
     }
 
-    private void fillProfile(JSONObject json) {
-        try {
-            JSONObject response = json.getJSONObject("response");
+    private void fillProfile(HooptapUser user) {
 
             //If parameter username is not empty in the Json Response, get the value and fill textview with
             //this value, if not set visibility to GONE
-            fillTextView(username, (!response.getString("username").equals("")) ? response.getString("username") : "");
-            fillTextView(surname, (!response.getString("surname").equals("")) ? "SurName : "+response.getString("surname") : "");
-            fillTextView(email, (!response.getString("email").equals("")) ? "Email : "+response.getString("email") : "");
-            fillTextView(id, (!response.getString("_id").equals("")) ? "Id : "+response.getString("_id") : "");
+            fillTextView(username, (!user.getUsername().equals("")) ? user.getUsername() : "");
+            fillTextView(surname, (!user.getSurname().equals("")) ? "SurName : "+user.getSurname() : "");
+            fillTextView(email, (!user.getEmail().equals("")) ? "Email : "+user.getEmail() : "");
+            fillTextView(id, (!user.get_id().equals("")) ? "Id : "+user.get_id() : "");
 
             //Gender is a int value = -1 Undefined; 0 = Male; 1 = female
-            int genderInt = (!response.isNull("gender")) ? response.getInt("gender") : -1;
+            int genderInt = user.getGender();
             if (genderInt == 0) {
                 fillTextView(gender, "Gender : Male");
             } else if (genderInt == 1) {
@@ -83,16 +82,13 @@ public class Profile extends HooptapActivity {
 
             //If parameter image is not empty in the Json Response, download the image with Picasso library, if not
             //put a static image
-            if ((!response.getString("image").equals("")) ? true : false) {
-                Picasso.with(this).load(response.getString("image")).into(photoPr);
-                Picasso.with(this).load(response.getString("image")).transform(new BlurTransformation(this)).into(photoPrBlur);
+            if ((!user.getImage().equals("")) ? true : false) {
+                Picasso.with(this).load(user.getImage()).into(photoPr);
+                Picasso.with(this).load(user.getImage()).transform(new BlurTransformation(this)).into(photoPrBlur);
             }else{
                 Picasso.with(this).load(R.drawable.tapface).into(photoPr);
                 Picasso.with(this).load(R.drawable.tapface).transform(new BlurTransformation(this)).into(photoPrBlur);
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     private void fillTextView(TextView textview, String text) {

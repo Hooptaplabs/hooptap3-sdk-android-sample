@@ -15,6 +15,7 @@ import com.hooptap.brandsampleaws.Generic.HooptapActivity;
 import com.hooptap.brandsampleaws.Utils.Utils;
 import com.hooptap.sdkbrandclub.Api.HooptapApi;
 import com.hooptap.sdkbrandclub.Interfaces.HooptapCallback;
+import com.hooptap.sdkbrandclub.Models.HooptapResponse;
 import com.hooptap.sdkbrandclub.Models.Options;
 import com.hooptap.sdkbrandclub.Models.ResponseError;
 
@@ -41,16 +42,18 @@ public class Badges extends HooptapActivity {
 
         final ProgressDialog pd = Utils.showProgress("Loading Goods", Badges.this);
         HooptapApi.getBadges(HTApplication.getTinydb().getString("user_id"), new Options(),
-                new HooptapCallback<JSONObject>() {
+                new HooptapCallback<HooptapResponse>() {
                     @Override
-                    public void onSuccess(JSONObject jsonObject) {
-                        data = jsonObject.toString();
+                    public void onSuccess(HooptapResponse htResponse) {
+                        Log.e("BADGES",htResponse.getItemArray().size()+" /");
+                        gridView.setAdapter(new BadgesAdapter(Badges.this, htResponse.getItemArray()));
+                        /*data = jsonObject.toString();
                         try {
                             JSONArray array = jsonObject.getJSONArray("response");
                             gridView.setAdapter(new BadgesAdapter(Badges.this, array));
                         } catch (JSONException e) {
                             e.printStackTrace();
-                        }
+                        }*/
                         Utils.dismisProgres(pd);
                     }
 

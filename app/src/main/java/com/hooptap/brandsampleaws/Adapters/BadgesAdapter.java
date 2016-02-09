@@ -10,38 +10,37 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hooptap.brandsampleaws.R;
+import com.hooptap.sdkbrandclub.Models.HooptapBadge;
+import com.hooptap.sdkbrandclub.Models.HooptapItem;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 /**
  * Created by root on 16/12/15.
  */
-public class BadgesAdapter extends BaseAdapter{
+public class BadgesAdapter extends BaseAdapter {
 
     Activity activity;
-    JSONArray objetos;
+    ArrayList<HooptapItem> badges;
 
-    public BadgesAdapter(Activity activity, JSONArray objetos) {
-        this.activity=activity;
-        this.objetos=objetos;
+    public BadgesAdapter(Activity activity, ArrayList<HooptapItem> badges) {
+        this.activity = activity;
+        this.badges = badges;
     }
 
     @Override
     public int getCount() {
-        return objetos.length();
+        return badges.size();
     }
 
     @Override
-    public JSONObject getItem(int i) {
-        try {
-            return objetos.getJSONObject(i);
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return null;
-        }
+    public HooptapBadge getItem(int i) {
+        return (HooptapBadge) badges.get(i);
     }
 
     @Override
@@ -59,15 +58,9 @@ public class BadgesAdapter extends BaseAdapter{
         ImageView imagen = ViewHolder.get(convertView, R.id.image);
         TextView texto = ViewHolder.get(convertView, R.id.texto);
 
-        JSONObject datos = getItem(position);
-        try {
-            texto.setText(datos.getString("name"));
-            Picasso.with(activity).load(datos.getString("image_on")).into(imagen);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
+        HooptapBadge badge = getItem(position);
+        texto.setText(badge.getName());
+        Picasso.with(activity).load(badge.getImageOn()).into(imagen);
 
         return convertView;
     }
