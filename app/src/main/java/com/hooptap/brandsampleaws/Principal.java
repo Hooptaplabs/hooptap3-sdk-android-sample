@@ -44,7 +44,7 @@ public class Principal extends AppCompatActivity {
                 startActivity(new Intent(this, Levels.class));
                 break;
             case 2:
-                startActivity(new Intent(this, Ranking.class));
+                startActivity(new Intent(this, RankingList.class));
                 break;
             case 3:
                 startActivity(new Intent(this, MarketPlace.class));
@@ -68,7 +68,7 @@ public class Principal extends AppCompatActivity {
                 startActivity(new Intent(this, Game.class));
                 break;
             case 10:
-                startActivity(new Intent(this, ListItems.class));
+                startActivity(new Intent(this, ItemList.class));
                 break;
 
         }

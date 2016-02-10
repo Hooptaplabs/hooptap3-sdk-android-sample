@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hooptap.brandsampleaws.R;
+import com.hooptap.sdkbrandclub.Models.HooptapItem;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -20,28 +21,23 @@ import java.util.ArrayList;
 /**
  * Created by root on 2/12/15.
  */
-public class UserAdapter extends BaseAdapter {
-    JSONArray objectos;
+public class ItemsAdapter<T> extends BaseAdapter {
+    ArrayList objectos;
     Activity activity;
 
-    public UserAdapter(Activity activity, JSONArray objectos) {
+    public ItemsAdapter(Activity activity, ArrayList objectos) {
         this.objectos = objectos;
         this.activity = activity;
     }
 
     @Override
     public int getCount() {
-        return objectos.length();
+        return objectos.size();
     }
 
     @Override
-    public JSONObject getItem(int i) {
-        try {
-            return objectos.getJSONObject(i);
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return null;
-        }
+    public T getItem(int i) {
+        return (T) objectos.get(i);
     }
 
     @Override
@@ -58,23 +54,13 @@ public class UserAdapter extends BaseAdapter {
         }
 
         ImageView imagen = ViewHolder.get(convertView, R.id.image);
-        TextView phoneView = ViewHolder.get(convertView, R.id.text);
+        TextView text = ViewHolder.get(convertView, R.id.text);
         TextView points = ViewHolder.get(convertView, R.id.points);
-        JSONObject datos = getItem(position);
-        try {
-            if (!datos.isNull("username"))
-                phoneView.setText(datos.getString("username"));
-            else
-                phoneView.setText(datos.getString("name"));
+        HooptapItem datos = (HooptapItem) getItem(position);
 
-            if (!datos.isNull("mark")) {
-                points.setText(datos.getString("mark") + " Points");
-                points.setVisibility(View.VISIBLE);
-            }
-            Picasso.with(activity).load(datos.getString("image")).into(imagen);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        if (datos.getName() != null)
+            text.setText(datos.getName());
+        Picasso.with(activity).load(datos.getImage()).into(imagen);
 
         return convertView;
     }

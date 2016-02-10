@@ -37,8 +37,6 @@
             android:screenOrientation="portrait"></activity>
         <activity android:name=".Buy"
             android:screenOrientation="portrait"></activity>
-        <activity android:name=".Ranking"
-            android:screenOrientation="portrait"></activity>
         <activity android:name=".Badges"
             android:screenOrientation="portrait"></activity>
         <activity android:name=".Actions"
@@ -49,9 +47,13 @@
             android:screenOrientation="portrait"></activity>
         <activity android:name=".Initial"
             android:screenOrientation="portrait"></activity>
-        <activity android:name=".ListItems"
+        <activity android:name=".ItemList"
             android:screenOrientation="portrait"></activity>
-        <activity android:name=".DetailItem"
+        <activity android:name=".ItemDetail"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".RankingDetail"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".RankingList"
             android:screenOrientation="portrait"></activity>
         <activity
             android:name=".Game"

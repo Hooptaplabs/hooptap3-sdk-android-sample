@@ -45,8 +45,8 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.login);
         ButterKnife.bind(this);
         getSupportActionBar().setTitle("Login");
-        email.setText("b@b.com");
-        password.setText("b");
+        email.setText("p2@p.com");
+        password.setText("asdfqwer");
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.

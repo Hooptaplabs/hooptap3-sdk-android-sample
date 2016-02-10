@@ -2,31 +2,25 @@ package com.hooptap.brandsampleaws;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.hooptap.brandsampleaws.Generic.HooptapActivity;
 import com.hooptap.brandsampleaws.Utils.Utils;
 import com.hooptap.sdkbrandclub.Api.HooptapApi;
 import com.hooptap.sdkbrandclub.Interfaces.HooptapCallback;
+import com.hooptap.sdkbrandclub.Models.HooptapGame;
+import com.hooptap.sdkbrandclub.Models.HooptapItem;
 import com.hooptap.sdkbrandclub.Models.ResponseError;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
-public class DetailItem extends HooptapActivity {
+public class ItemDetail extends HooptapActivity {
 
     private String item_id;
-    @Bind(R.id.detail) TextView detail;
+    @Bind(R.id.detail)
+    TextView detail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,29 +42,20 @@ public class DetailItem extends HooptapActivity {
     }
 
     public void getDetailItem() {
-        final ProgressDialog pd = Utils.showProgress("Loading Items", DetailItem.this);
-        HooptapApi.getItemDetail(HTApplication.getTinydb().getString("user_id"), item_id, new HooptapCallback<JSONObject>() {
+        final ProgressDialog pd = Utils.showProgress("Loading Items", ItemDetail.this);
+        HooptapApi.getItemDetail(HTApplication.getTinydb().getString("user_id"), item_id, new HooptapCallback<HooptapItem>() {
             @Override
-            public void onSuccess(JSONObject jsonObject) {
-                data = jsonObject.toString();
-                try {
-                    JSONObject data = jsonObject.getJSONObject("response");
-
-                    if (!data.equals("")) {
-                        detail.setText(Utils.formatJSON(data + ""));
-                    } else {
-                        Utils.createDialog(DetailItem.this, "There aren\'t any elements at this moment");
-                    }
-                    Utils.dismisProgres(pd);
-                } catch (JSONException e) {
-                    e.printStackTrace();
+            public void onSuccess(HooptapItem item) {
+                detail.setText(item.getName() + " / " + item.getImage() + " / " + item.getItemType() + " \n" + " \n");
+                if (item.getItemType().equals("Game")) {
+                    detail.setText(detail.getText() + "" + ((HooptapGame) item).getUrl_game());
                 }
             }
 
             @Override
             public void onError(ResponseError responseError) {
                 Utils.dismisProgres(pd);
-                Utils.createDialogError(DetailItem.this, responseError.getReason());
+                Utils.createDialogError(ItemDetail.this, responseError.getReason());
             }
         });
     }
