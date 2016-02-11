@@ -25,7 +25,8 @@ import com.hooptap.brandsampleaws.Generic.HooptapActivity;
 import com.hooptap.brandsampleaws.Utils.Utils;
 import com.hooptap.sdkbrandclub.Api.HooptapApi;
 import com.hooptap.sdkbrandclub.Interfaces.HooptapCallback;
-import com.hooptap.sdkbrandclub.Models.Options;
+import com.hooptap.sdkbrandclub.Models.HooptapFilter;
+import com.hooptap.sdkbrandclub.Models.HooptapOptions;
 import com.hooptap.sdkbrandclub.Models.ResponseError;
 
 import org.json.JSONArray;
@@ -73,7 +74,7 @@ public class Actions extends HooptapActivity implements AdapterView.OnItemSelect
         spinner.setOnItemSelectedListener(this);
 
         final ProgressDialog pd = Utils.showProgress("Loading Actions avaibles", this);
-        HooptapApi.getActions(new Options(), new HooptapCallback<ArrayList<String>>() {
+        HooptapApi.getActions(new HooptapOptions(), new HooptapFilter(), new HooptapCallback<ArrayList<String>>() {
             @Override
             public void onSuccess(ArrayList<String> strings) {
                 SpinnerAdapterActions adapter = new SpinnerAdapterActions(Actions.this, strings);
@@ -156,7 +157,7 @@ public class Actions extends HooptapActivity implements AdapterView.OnItemSelect
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         String action = adapterView.getItemAtPosition(i).toString();
         final ProgressDialog pd = Utils.showProgress("Loading matching fields required", Actions.this);
-        HooptapApi.getMatchingFieldsForAction(action, new Options(), new HooptapCallback<HashMap<String, String>>() {
+        HooptapApi.getMatchingFieldsForAction(action, new HooptapOptions(), new HooptapFilter(), new HooptapCallback<HashMap<String, String>>() {
             @Override
             public void onSuccess(HashMap<String, String> stringStringHashMap) {
                 matching_fields.removeAllViews();

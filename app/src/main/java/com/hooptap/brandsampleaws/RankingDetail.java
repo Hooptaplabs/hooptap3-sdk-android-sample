@@ -8,15 +8,15 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.hooptap.brandsampleaws.Adapters.ItemsAdapter;
+import com.hooptap.brandsampleaws.Adapters.UserAdapter;
 import com.hooptap.brandsampleaws.Generic.HooptapActivity;
 import com.hooptap.brandsampleaws.Utils.Utils;
 import com.hooptap.sdkbrandclub.Api.HooptapApi;
 import com.hooptap.sdkbrandclub.Interfaces.HooptapCallback;
 import com.hooptap.sdkbrandclub.Models.HooptapItem;
-import com.hooptap.sdkbrandclub.Models.HooptapListResponse;
+import com.hooptap.sdkbrandclub.Models.HooptapOptions;
 import com.hooptap.sdkbrandclub.Models.HooptapRanking;
-import com.hooptap.sdkbrandclub.Models.Options;
+
 import com.hooptap.sdkbrandclub.Models.ResponseError;
 
 import butterknife.Bind;
@@ -57,12 +57,12 @@ public class RankingDetail extends HooptapActivity {
 
     public void getRankings() {
         final ProgressDialog pd = Utils.showProgress("Loading Rankings", RankingDetail.this);
-        HooptapApi.getRankingDetail(ranking_id, new Options(), new HooptapCallback<HooptapRanking>() {
+        HooptapApi.getRankingDetail(HTApplication.getTinydb().getString("user_id"), ranking_id, new HooptapOptions(), new HooptapCallback<HooptapRanking>() {
             @Override
             public void onSuccess(HooptapRanking ranking) {
 
                 if (ranking.getUsers().size() > 0) {
-                    ItemsAdapter userAdapter = new ItemsAdapter(RankingDetail.this, ranking.getUsers());
+                    UserAdapter userAdapter = new UserAdapter(RankingDetail.this, ranking.getUsers());
                     list.setAdapter(userAdapter);
                 }
                 Utils.dismisProgres(pd);

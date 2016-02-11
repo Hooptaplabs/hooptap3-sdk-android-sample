@@ -27,13 +27,9 @@ public class ListAdapter extends BaseAdapter {
         lista.add("Profile");
         lista.add("Levels");
         lista.add("Ranking");
-        lista.add("Market");
-        lista.add("Goods");
-        lista.add("Buy");
         lista.add("Badges");
         lista.add("Actions");
         lista.add("Feed");
-        lista.add("Play Game");
         lista.add("List Items");
     }
 

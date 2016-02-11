@@ -15,8 +15,6 @@ import com.hooptap.sdkbrandclub.Models.HooptapUser;
 import com.hooptap.sdkbrandclub.Models.ResponseError;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONObject;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 

@@ -9,7 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hooptap.brandsampleaws.R;
-import com.hooptap.sdkbrandclub.Models.HooptapUser;
+import com.hooptap.sdkbrandclub.Models.HooptapItem;
+import com.hooptap.sdkbrandclub.Models.HooptapRanking;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -17,23 +18,23 @@ import java.util.ArrayList;
 /**
  * Created by root on 2/12/15.
  */
-public class UserAdapter extends BaseAdapter {
-    ArrayList users;
+public class RankingsAdapter<T> extends BaseAdapter {
+    ArrayList objectos;
     Activity activity;
 
-    public UserAdapter(Activity activity, ArrayList users) {
-        this.users = users;
+    public RankingsAdapter(Activity activity, ArrayList objectos) {
+        this.objectos = objectos;
         this.activity = activity;
     }
 
     @Override
     public int getCount() {
-        return users.size();
+        return objectos.size();
     }
 
     @Override
-    public HooptapUser getItem(int i) {
-        return (HooptapUser) users.get(i);
+    public T getItem(int i) {
+        return (T) objectos.get(i);
     }
 
     @Override
@@ -46,18 +47,17 @@ public class UserAdapter extends BaseAdapter {
 
         if (convertView == null) {
             convertView = LayoutInflater.from(activity)
-                    .inflate(R.layout.user_list, parent, false);
+                    .inflate(R.layout.lista, parent, false);
         }
 
         ImageView imagen = ViewHolder.get(convertView, R.id.image);
         TextView text = ViewHolder.get(convertView, R.id.text);
-        TextView points = ViewHolder.get(convertView, R.id.points);
-        HooptapUser user = getItem(position);
+        HooptapItem datos = (HooptapRanking) getItem(position);
 
-        if (user.getUsername() != null)
-            text.setText(user.getUsername());
-        if (user.getImage() != null && !user.getImage().equals(""))
-            Picasso.with(activity).load(user.getImage()).into(imagen);
+        if (datos.getName() != null)
+            text.setText(datos.getName());
+        if (datos.getImage() != null && !datos.getImage().equals(""))
+            Picasso.with(activity).load(datos.getImage()).into(imagen);
 
         return convertView;
     }

@@ -1,5 +1,6 @@
 package com.hooptap.brandsampleaws;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +14,7 @@ import com.hooptap.brandclub.model.UserModel;
 import com.hooptap.brandsampleaws.Utils.Utils;
 import com.hooptap.sdkbrandclub.Api.HooptapApi;
 import com.hooptap.sdkbrandclub.Interfaces.HooptapCallback;
+import com.hooptap.sdkbrandclub.Models.HooptapUser;
 import com.hooptap.sdkbrandclub.Models.RegisterModel;
 import com.hooptap.sdkbrandclub.Models.ResponseError;
 
@@ -34,38 +36,37 @@ import butterknife.OnClick;
 public class Register extends AppCompatActivity {
     @Bind(R.id.ll_generic)
     LinearLayout ll_generic;
-    ArrayList<EditText> arrayList = new ArrayList<>();
-    View v;
-    RegisterModel info=new RegisterModel();
+    RegisterModel info = new RegisterModel();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.registrar);
         ButterKnife.bind(this);
         getSupportActionBar().setTitle("Register");
-        Field[] datos = UserModel.class.getDeclaredFields();
 
-        ArrayList<String> params=info.getParams();
-        for(int i=0;i<params.size();i++){
+        ArrayList<String> params = info.getParams();
+        for (int i = 0; i < params.size(); i++) {
             ll_generic.addView(Utils.createEditText(params.get(i), this));
         }
     }
+
     @OnClick(R.id.btn)
     public void submit() {
-        Log.e("registro","registrando");
+        Log.e("registro", "registrando");
         //JSONObject info = new JSONObject();
 
         try {
 
-            ArrayList<String> datos= new ArrayList<>();
+            ArrayList<String> datos = new ArrayList<>();
             for (Map.Entry<Integer, String> entry : Utils.listado.entrySet()) {
                 Integer key = entry.getKey();
                 String value = entry.getValue();
                 Log.e("valores", value + "---" + key);
-                EditText edit= (EditText) ll_generic.findViewById(key);
+                EditText edit = (EditText) ll_generic.findViewById(key);
 
                 String texto = edit.getText().toString();
-               // Log.e("info",texto);
+                // Log.e("info",texto);
                 datos.add(texto);
                /* if (!texto.matches("")) {
 
@@ -81,36 +82,20 @@ public class Register extends AppCompatActivity {
             //info.setGender(new BigDecimal(datos.get(6)));
             info.setEmail(datos.get(7));
 
+            final ProgressDialog pd = Utils.showProgress("Register", Register.this);
 
-
-
-
-
-            HooptapApi.registerUser(info, new HooptapCallback<JSONObject>() {
+            HooptapApi.registerUser(info, new HooptapCallback<HooptapUser>() {
                 @Override
-                public void onSuccess(JSONObject jsonObject) {
-                    Log.e("usuariosregister", jsonObject + "");
-                    JSONObject data= null;
-                    try {
-                        data = jsonObject.getJSONObject("response");
-                        HTApplication.getTinydb().putString("user_id", data.getString("_id"));
-                        HTApplication.getTinydb().putString("profile", data + "");
-                        startActivity(new Intent(Register.this, Principal.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    }
+                public void onSuccess(HooptapUser user) {
+                    HTApplication.getTinydb().putString("user_id", user.get_id());
+                    startActivity(new Intent(Register.this, Principal.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                    Utils.dismisProgres(pd);
+                }
 
                 @Override
                 public void onError(ResponseError responseError) {
-                    new MaterialDialog.Builder(Register.this)
-                            .title(R.string.error)
-                            .content(responseError.getReason())
-                            .positiveText("Salir")
-                            .show();
-                    Log.e("usuariosregisterEEE", responseError.getReason() + "");
-
+                    Utils.createDialogError(Register.this, responseError.getReason());
+                    Utils.dismisProgres(pd);
                 }
             });
         } catch (Exception e) {

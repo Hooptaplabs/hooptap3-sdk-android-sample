@@ -6,10 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hooptap.brandsampleaws.R;
-import com.hooptap.sdkbrandclub.Models.HooptapUser;
+import com.hooptap.sdkbrandclub.Models.HooptapLevel;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -17,23 +18,23 @@ import java.util.ArrayList;
 /**
  * Created by root on 2/12/15.
  */
-public class UserAdapter extends BaseAdapter {
-    ArrayList users;
+public class LevelsAdapter<T> extends BaseAdapter {
+    ArrayList objectos;
     Activity activity;
 
-    public UserAdapter(Activity activity, ArrayList users) {
-        this.users = users;
+    public LevelsAdapter(Activity activity, ArrayList objectos) {
+        this.objectos = objectos;
         this.activity = activity;
     }
 
     @Override
     public int getCount() {
-        return users.size();
+        return objectos.size();
     }
 
     @Override
-    public HooptapUser getItem(int i) {
-        return (HooptapUser) users.get(i);
+    public T getItem(int i) {
+        return (T) objectos.get(i);
     }
 
     @Override
@@ -46,18 +47,21 @@ public class UserAdapter extends BaseAdapter {
 
         if (convertView == null) {
             convertView = LayoutInflater.from(activity)
-                    .inflate(R.layout.user_list, parent, false);
+                    .inflate(R.layout.levels_list, parent, false);
         }
 
         ImageView imagen = ViewHolder.get(convertView, R.id.image);
         TextView text = ViewHolder.get(convertView, R.id.text);
-        TextView points = ViewHolder.get(convertView, R.id.points);
-        HooptapUser user = getItem(position);
+        LinearLayout bg = ViewHolder.get(convertView, R.id.element);
 
-        if (user.getUsername() != null)
-            text.setText(user.getUsername());
-        if (user.getImage() != null && !user.getImage().equals(""))
-            Picasso.with(activity).load(user.getImage()).into(imagen);
+        HooptapLevel item = (HooptapLevel) getItem(position);
+
+        if (!item.isPassed())
+            bg.setBackgroundColor(activity.getResources().getColor(R.color.caption));
+        if (item.getName() != null)
+            text.setText(item.getName());
+        if (item.getImage() != null && !item.getImage().equals(""))
+            Picasso.with(activity).load(item.getImage()).into(imagen);
 
         return convertView;
     }

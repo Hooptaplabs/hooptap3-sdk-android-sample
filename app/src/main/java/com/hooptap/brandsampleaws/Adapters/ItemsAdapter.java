@@ -12,10 +12,6 @@ import com.hooptap.brandsampleaws.R;
 import com.hooptap.sdkbrandclub.Models.HooptapItem;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 
 /**
@@ -55,12 +51,12 @@ public class ItemsAdapter<T> extends BaseAdapter {
 
         ImageView imagen = ViewHolder.get(convertView, R.id.image);
         TextView text = ViewHolder.get(convertView, R.id.text);
-        TextView points = ViewHolder.get(convertView, R.id.points);
-        HooptapItem datos = (HooptapItem) getItem(position);
+        HooptapItem item = (HooptapItem) getItem(position);
 
-        if (datos.getName() != null)
-            text.setText(datos.getName());
-        Picasso.with(activity).load(datos.getImage()).into(imagen);
+        if (item.getName() != null)
+            text.setText(item.getName());
+        if (item.getImage() != null && !item.getImage().equals(""))
+            Picasso.with(activity).load(item.getImage()).into(imagen);
 
         return convertView;
     }

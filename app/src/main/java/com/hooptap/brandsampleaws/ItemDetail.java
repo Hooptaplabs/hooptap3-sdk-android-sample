@@ -25,7 +25,7 @@ public class ItemDetail extends HooptapActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.detail_item);
+        setContentView(R.layout.item_detail);
         ButterKnife.bind(this);
         getSupportActionBar().setTitle("Detail Item");
 
@@ -50,6 +50,7 @@ public class ItemDetail extends HooptapActivity {
                 if (item.getItemType().equals("Game")) {
                     detail.setText(detail.getText() + "" + ((HooptapGame) item).getUrl_game());
                 }
+                Utils.dismisProgres(pd);
             }
 
             @Override

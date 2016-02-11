@@ -41,33 +41,21 @@ public class Principal extends AppCompatActivity {
                 startActivity(new Intent(this, Profile.class));
                 break;
             case 1:
-                startActivity(new Intent(this, Levels.class));
+                startActivity(new Intent(this, LevelList.class));
                 break;
             case 2:
                 startActivity(new Intent(this, RankingList.class));
                 break;
             case 3:
-                startActivity(new Intent(this, MarketPlace.class));
-                break;
-            case 4:
-                startActivity(new Intent(this, Goods.class));
-                break;
-            case 5:
-                startActivity(new Intent(this, Buy.class));
-                break;
-            case 6:
                 startActivity(new Intent(this, Badges.class));
                 break;
-            case 7:
+            case 4:
                 startActivity(new Intent(this, Actions.class));
                 break;
-            case 8:
+            case 5:
                 startActivity(new Intent(this, Feed.class));
                 break;
-            case 9:
-                startActivity(new Intent(this, Game.class));
-                break;
-            case 10:
+            case 6:
                 startActivity(new Intent(this, ItemList.class));
                 break;
 

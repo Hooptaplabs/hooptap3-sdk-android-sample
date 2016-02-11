@@ -14,7 +14,7 @@ import com.hooptap.sdkbrandclub.Api.HooptapApi;
 import com.hooptap.sdkbrandclub.Interfaces.HooptapCallback;
 import com.hooptap.sdkbrandclub.Models.HooptapItem;
 import com.hooptap.sdkbrandclub.Models.HooptapListResponse;
-import com.hooptap.sdkbrandclub.Models.Options;
+import com.hooptap.sdkbrandclub.Models.HooptapOptions;
 import com.hooptap.sdkbrandclub.Models.ResponseError;
 
 import butterknife.Bind;
@@ -46,7 +46,7 @@ public class ItemList extends HooptapActivity {
 
     public void getItems() {
         final ProgressDialog pd = Utils.showProgress("Loading Items", ItemList.this);
-        HooptapApi.getItems(HTApplication.getTinydb().getString("user_id"), new Options(), new HooptapCallback<HooptapListResponse>() {
+        HooptapApi.getItems(HTApplication.getTinydb().getString("user_id"), new HooptapOptions(), new HooptapCallback<HooptapListResponse>() {
             @Override
             public void onSuccess(HooptapListResponse htResponse) {
 

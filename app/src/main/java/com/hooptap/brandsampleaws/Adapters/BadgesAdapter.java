@@ -1,7 +1,6 @@
 package com.hooptap.brandsampleaws.Adapters;
 
 import android.app.Activity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +12,6 @@ import com.hooptap.brandsampleaws.R;
 import com.hooptap.sdkbrandclub.Models.HooptapBadge;
 import com.hooptap.sdkbrandclub.Models.HooptapItem;
 import com.squareup.picasso.Picasso;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 

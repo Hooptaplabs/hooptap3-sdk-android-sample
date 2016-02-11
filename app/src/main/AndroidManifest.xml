@@ -31,19 +31,11 @@
             android:screenOrientation="portrait"></activity>
         <activity android:name=".Profile"
             android:screenOrientation="portrait"></activity>
-        <activity android:name=".MarketPlace"
-            android:screenOrientation="portrait"></activity>
-        <activity android:name=".Levels"
-            android:screenOrientation="portrait"></activity>
-        <activity android:name=".Buy"
-            android:screenOrientation="portrait"></activity>
         <activity android:name=".Badges"
             android:screenOrientation="portrait"></activity>
         <activity android:name=".Actions"
             android:screenOrientation="portrait"></activity>
         <activity android:name=".Feed"
-            android:screenOrientation="portrait"></activity>
-        <activity android:name=".Goods"
             android:screenOrientation="portrait"></activity>
         <activity android:name=".Initial"
             android:screenOrientation="portrait"></activity>
@@ -55,11 +47,10 @@
             android:screenOrientation="portrait"></activity>
         <activity android:name=".RankingList"
             android:screenOrientation="portrait"></activity>
-        <activity
-            android:name=".Game"
-            android:configChanges="orientation|screenSize"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
+        <activity android:name=".LevelDetail"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".LevelList"
+            android:screenOrientation="portrait"></activity>
         <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
              App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
         <meta-data

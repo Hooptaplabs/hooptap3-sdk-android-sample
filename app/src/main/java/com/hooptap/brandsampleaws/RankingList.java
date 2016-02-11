@@ -12,9 +12,10 @@ import com.hooptap.brandsampleaws.Generic.HooptapActivity;
 import com.hooptap.brandsampleaws.Utils.Utils;
 import com.hooptap.sdkbrandclub.Api.HooptapApi;
 import com.hooptap.sdkbrandclub.Interfaces.HooptapCallback;
+import com.hooptap.sdkbrandclub.Models.HooptapFilter;
 import com.hooptap.sdkbrandclub.Models.HooptapItem;
 import com.hooptap.sdkbrandclub.Models.HooptapListResponse;
-import com.hooptap.sdkbrandclub.Models.Options;
+import com.hooptap.sdkbrandclub.Models.HooptapOptions;
 import com.hooptap.sdkbrandclub.Models.ResponseError;
 
 import butterknife.Bind;
@@ -46,7 +47,7 @@ public class RankingList extends HooptapActivity {
 
     public void getRankings() {
         final ProgressDialog pd = Utils.showProgress("Loading Rankings", RankingList.this);
-        HooptapApi.getRankingList(new Options(), new HooptapCallback<HooptapListResponse>() {
+        HooptapApi.getRankingList(new HooptapOptions(), new HooptapFilter(), new HooptapCallback<HooptapListResponse>() {
             @Override
             public void onSuccess(HooptapListResponse htResponse) {
 

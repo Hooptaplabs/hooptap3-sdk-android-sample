@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.EditText;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -17,9 +16,6 @@ import com.hooptap.sdkbrandclub.Api.HooptapApi;
 import com.hooptap.sdkbrandclub.Interfaces.HooptapCallback;
 import com.hooptap.sdkbrandclub.Models.HooptapUser;
 import com.hooptap.sdkbrandclub.Models.ResponseError;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -59,11 +55,9 @@ public class Login extends AppCompatActivity {
         HooptapApi.login(email.getText().toString(), password.getText().toString(), new HooptapCallback<HooptapUser>() {
             @Override
             public void onSuccess(HooptapUser user) {
-                Log.e("login", user.get_id() + "");
                 HTApplication.getTinydb().putString("user_id", user.get_id());
                 startActivity(new Intent(Login.this, Principal.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
                 Utils.dismisProgres(pd);
-
             }
 
             @Override
