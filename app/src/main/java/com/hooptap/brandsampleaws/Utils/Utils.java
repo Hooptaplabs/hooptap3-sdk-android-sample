@@ -25,42 +25,6 @@ import java.util.HashMap;
 public class Utils {
     public static HashMap<Integer, String> listado = new HashMap<>();
 
-    public static LinearLayout createEditText(String name, Activity activity) {
-        LinearLayout ll_custom = new LinearLayout(activity);
-        //ll_custom.setBackgroundColor(getResources().getColor(R.color.White));
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        layoutParams.setMargins(0, 1, 0, 0);
-        ll_custom.setOrientation(LinearLayout.HORIZONTAL);
-        ll_custom.setLayoutParams(layoutParams);
-
-        TextView txt = new TextView(activity);
-        LinearLayout.LayoutParams layoutParamsTxt = new LinearLayout.LayoutParams((int) convertDpToPixel(120, activity), LinearLayout.LayoutParams.MATCH_PARENT);
-        txt.setLayoutParams(layoutParamsTxt);
-        txt.setAllCaps(true);
-        txt.setGravity(Gravity.CENTER);
-        //txt.setBackgroundColor(getResources().getColor(R.color.Text_Register));
-        try {
-            txt.setText(name);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        EditText edit = new EditText(activity);
-        LinearLayout.LayoutParams layoutParamsEdit = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int) convertDpToPixel(36, activity));
-        edit.setLayoutParams(layoutParamsEdit);
-        //layoutParamsEdit.setMargins((int) UtilsFuctions.convertDpToPixel(2, this), (int) UtilsFuctions.convertDpToPixel(2, this), (int) UtilsFuctions.convertDpToPixel(2, this), (int) UtilsFuctions.convertDpToPixel(2, this));
-        edit.setPadding(4, 0, 4, 0);
-        edit.setSingleLine(true);
-        //edit.setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_laucher));
-        edit.setCursorVisible(true);
-        edit.setTextColor(activity.getResources().getColor(R.color.colorAccent));
-        edit.setId(listado.size());
-        listado.put(edit.getId(), name);
-        ll_custom.addView(txt);
-        ll_custom.addView(edit);
-        return ll_custom;
-    }
-
     public static float convertDpToPixel(float dp, Context context) {
         Resources resources = context.getResources();
         DisplayMetrics metrics = resources.getDisplayMetrics();
@@ -188,5 +152,15 @@ public class Utils {
             progres.dismiss();
     }
 
+    public static boolean thereAreEmptyFields(HashMap<String, Object>hasmap) {
+        for (final HashMap.Entry<String, Object> entry : hasmap.entrySet()) {
+            if (entry.getValue() instanceof EditText) {
+                if (((EditText) entry.getValue()).getText().toString().trim().equals("")) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }
 

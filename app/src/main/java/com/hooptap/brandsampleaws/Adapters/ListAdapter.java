@@ -25,6 +25,7 @@ public class ListAdapter extends BaseAdapter {
 
         this.activity = activity;
         lista.add("Profile");
+        lista.add("Update User");
         lista.add("Levels");
         lista.add("Ranking");
         lista.add("Badges");

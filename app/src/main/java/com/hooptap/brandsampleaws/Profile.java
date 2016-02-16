@@ -11,6 +11,7 @@ import com.hooptap.brandsampleaws.Utils.BlurTransformation;
 import com.hooptap.brandsampleaws.Utils.Utils;
 import com.hooptap.sdkbrandclub.Api.HooptapApi;
 import com.hooptap.sdkbrandclub.Interfaces.HooptapCallback;
+import com.hooptap.sdkbrandclub.Models.HooptapPoint;
 import com.hooptap.sdkbrandclub.Models.HooptapUser;
 import com.hooptap.sdkbrandclub.Models.ResponseError;
 import com.squareup.picasso.Picasso;
@@ -34,6 +35,12 @@ public class Profile extends HooptapActivity {
     TextView id;
     @Bind(R.id.gender)
     TextView gender;
+    @Bind(R.id.phone)
+    TextView phone;
+    @Bind(R.id.birth)
+    TextView birth;
+    @Bind(R.id.points)
+    TextView points;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +54,7 @@ public class Profile extends HooptapActivity {
         HooptapApi.getProfile(HTApplication.getTinydb().getString("user_id"), new HooptapCallback<HooptapUser>() {
             @Override
             public void onSuccess(HooptapUser user) {
-                //data = jsonObject + "";
+                getPoints();
                 fillProfile(user);
                 Utils.dismisProgres(pd);
             }
@@ -56,6 +63,21 @@ public class Profile extends HooptapActivity {
             public void onError(ResponseError responseError) {
                 Utils.createDialogError(Profile.this, responseError.getReason());
                 Utils.dismisProgres(pd);
+            }
+        });
+
+    }
+
+    private void getPoints(){
+        HooptapApi.getPoints(HTApplication.getTinydb().getString("user_id"), new HooptapCallback<HooptapPoint>() {
+            @Override
+            public void onSuccess(HooptapPoint hooptapPoint) {
+                points.setText(hooptapPoint.getQuantity()+" PUNTOS");
+            }
+
+            @Override
+            public void onError(ResponseError responseError) {
+
             }
         });
     }
@@ -68,6 +90,8 @@ public class Profile extends HooptapActivity {
         fillTextView(surname, (user.getSurname() != null) ? "SurName : " + user.getSurname() : "");
         fillTextView(email, (user.getEmail() != null) ? "Email : " + user.getEmail() : "");
         fillTextView(id, (user.get_id() != null) ? "Id : " + user.get_id() : "");
+        fillTextView(phone, (user.getPhone_number() != null) ? "Phone number : " + user.getPhone_number() : "");
+        fillTextView(birth, (user.getBirth() != null) ? "Birthday : " + user.getBirth() : "");
 
         //Gender is a int value = -1 Undefined; 0 = Male; 1 = female
         int genderInt = user.getGender();

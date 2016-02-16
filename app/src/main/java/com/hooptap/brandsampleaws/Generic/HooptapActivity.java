@@ -13,8 +13,6 @@ import com.hooptap.brandsampleaws.Utils.Utils;
  */
 public class HooptapActivity extends AppCompatActivity {
 
-    public static String data = "";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,7 +22,6 @@ public class HooptapActivity extends AppCompatActivity {
 
     public void onDestroy() {
         super.onDestroy();
-        data = "";
     }
 
     @Override
@@ -34,13 +31,13 @@ public class HooptapActivity extends AppCompatActivity {
         if (id == android.R.id.home) {
             finish();
             return true;
-        } else if (id == R.id.show) {
+        } /*else if (id == R.id.show) {
             if (!data.equals("")){
                 Utils.createDialog(this, data);
             }
             return true;
 
-        } else {
+        }*/ else {
             return super.onOptionsItemSelected(item);
         }
     }
@@ -48,7 +45,7 @@ public class HooptapActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_show_json, menu);
+        //getMenuInflater().inflate(R.menu.menu_show_json, menu);
         return true;
     }
 }

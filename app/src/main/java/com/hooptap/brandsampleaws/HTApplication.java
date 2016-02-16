@@ -17,7 +17,7 @@ public class HTApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Hooptap hp = new Hooptap.Builder(this)  // Create builder
+        new Hooptap.Builder(this)  // Create builder
                 .setApiKey("46576686f6f707461702e627")
                 .enableDebug(true)              // Enable debug mode
                 .build();

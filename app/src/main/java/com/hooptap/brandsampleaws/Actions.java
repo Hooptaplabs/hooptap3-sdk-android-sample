@@ -92,7 +92,7 @@ public class Actions extends HooptapActivity implements AdapterView.OnItemSelect
 
     @OnClick(R.id.btn)
     public void llamarAccion() {
-        if (!thereAreEmptyFields()) {
+        if (!Utils.thereAreEmptyFields(objectsResponses)) {
             try {
                 JSONObject jsonActionData = new JSONObject();
                 for (final HashMap.Entry<String, Object> entry : objectsResponses.entrySet()) {
@@ -117,7 +117,6 @@ public class Actions extends HooptapActivity implements AdapterView.OnItemSelect
         HooptapApi.doAction(HTApplication.getTinydb().getString("user_id"), json.toString(), spinner.getSelectedItem().toString(), new HooptapCallback<JSONObject>() {
             @Override
             public void onSuccess(JSONObject jsonObject) {
-                data = jsonObject + "";
                 Utils.dismisProgres(pd);
                 try {
                     JSONObject response = jsonObject.getJSONObject("response");
@@ -142,17 +141,6 @@ public class Actions extends HooptapActivity implements AdapterView.OnItemSelect
         });
     }
 
-    private boolean thereAreEmptyFields() {
-        for (final HashMap.Entry<String, Object> entry : objectsResponses.entrySet()) {
-            if (entry.getValue() instanceof EditText) {
-                if (((EditText) entry.getValue()).getText().toString().trim().equals("")) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         String action = adapterView.getItemAtPosition(i).toString();
@@ -169,7 +157,7 @@ public class Actions extends HooptapActivity implements AdapterView.OnItemSelect
                             View v = launchReflectionMethod(entry.getKey(), entry.getValue());
                             matching_fields.addView(v);
                             //Los metodos al llamarse por  reflection hace que no se puede acceder a nada
-                            //de elos ni vista ni variables, por eso debemos declarar los click especiales aqui
+                            //de ellos ni vista ni variables, por eso debemos declarar los click especiales aqui
                             checkSpecialInput(v);
                         }
                     });

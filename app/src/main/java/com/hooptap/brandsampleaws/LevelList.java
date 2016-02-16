@@ -54,10 +54,11 @@ public class LevelList extends HooptapActivity {
     public void loadLevels() {
         pd = Utils.showProgress("Loading Levels", LevelList.this);
 
-        HooptapFilter filter = new HooptapFilter.Builder()
+        HooptapFilter filter = new HooptapFilter();
+        /*HooptapFilter filter = new HooptapFilter.Builder()
                 .sort("min_points", Order.asc)
                 .where("name", "Primer", true)
-                .build();
+                .build();*/
 
         HooptapApi.getLevels(new HooptapOptions(), filter, new HooptapCallback<HooptapListResponse>() {
             @Override

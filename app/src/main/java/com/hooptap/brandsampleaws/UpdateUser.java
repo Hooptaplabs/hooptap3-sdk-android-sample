@@ -3,10 +3,10 @@ package com.hooptap.brandsampleaws;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -14,10 +14,12 @@ import android.widget.Toast;
 
 import com.android.datetimepicker.date.DatePickerDialog;
 import com.google.gson.Gson;
+import com.hooptap.brandsampleaws.Generic.HooptapActivity;
 import com.hooptap.brandsampleaws.Utils.Utils;
 import com.hooptap.sdkbrandclub.Api.HooptapApi;
 import com.hooptap.sdkbrandclub.Interfaces.HooptapCallback;
 import com.hooptap.sdkbrandclub.Models.HooptapRegister;
+import com.hooptap.sdkbrandclub.Models.HooptapUpdateModel;
 import com.hooptap.sdkbrandclub.Models.HooptapUser;
 import com.hooptap.sdkbrandclub.Models.ResponseError;
 
@@ -36,12 +38,13 @@ import butterknife.OnClick;
  * Created by root on 15/12/15.
  */
 
-public class Register extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
+public class UpdateUser extends HooptapActivity implements DatePickerDialog.OnDateSetListener {
     @Bind(R.id.ll_generic)
     LinearLayout ll_generic;
+    @Bind(R.id.btn)
+    Button btn;
 
     private HashMap<String, Object> objectsResponses = new HashMap<>();
-    private HooptapUser info = new HooptapUser();
     private Field[] fields;
 
     @Override
@@ -49,7 +52,8 @@ public class Register extends AppCompatActivity implements DatePickerDialog.OnDa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.registrar);
         ButterKnife.bind(this);
-        getSupportActionBar().setTitle("Register");
+        getSupportActionBar().setTitle("Update User");
+        btn.setText("Update User");
 
         fields = HooptapRegister.class.getFields();
 
@@ -68,29 +72,24 @@ public class Register extends AppCompatActivity implements DatePickerDialog.OnDa
     public void submit() {
         try {
 
-            //if (!Utils.thereAreEmptyFields(objectsResponses)) {
-            HooptapRegister userInfo = fillUserInfoForRegister();
+            HooptapUpdateModel userInfo = fillUserInfoForUpdateModel();
 
-            final ProgressDialog pd = Utils.showProgress("Register", Register.this);
+            final ProgressDialog pd = Utils.showProgress("Update Model", UpdateUser.this);
 
-            HooptapApi.registerUser(userInfo, new HooptapCallback<HooptapUser>() {
+            HooptapApi.updateUser(HTApplication.getTinydb().getString("user_id"), userInfo, new HooptapCallback<HooptapUser>() {
                 @Override
                 public void onSuccess(HooptapUser user) {
-                    HTApplication.getTinydb().putString("user_id", user.get_id());
-                    startActivity(new Intent(Register.this, Principal.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                    Toast.makeText(getApplicationContext(), "User has been update", Toast.LENGTH_LONG).show();
                     Utils.dismisProgres(pd);
+                    finish();
                 }
 
                 @Override
                 public void onError(ResponseError responseError) {
                     Toast.makeText(getApplicationContext(), responseError.getReason(), Toast.LENGTH_LONG).show();
-                    //Utils.createDialogError(Register.this, responseError.getReason());
                     Utils.dismisProgres(pd);
                 }
             });
-            /*}else{
-                Toast.makeText(getApplicationContext(), "There are empty fields", Toast.LENGTH_LONG).show();
-            }*/
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -125,7 +124,7 @@ public class Register extends AppCompatActivity implements DatePickerDialog.OnDa
             public void onFocusChange(View view, boolean b) {
                 if (b) {
                     Calendar calendar = Calendar.getInstance();
-                    DatePickerDialog date = DatePickerDialog.newInstance(Register.this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+                    DatePickerDialog date = DatePickerDialog.newInstance(UpdateUser.this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
                     date.setOnDateSetListener(new DatePickerDialog.OnDateSetListener() {
                         @Override
                         public void onDateSet(DatePickerDialog dialog, int year, int monthOfYear, int dayOfMonth) {
@@ -142,22 +141,21 @@ public class Register extends AppCompatActivity implements DatePickerDialog.OnDa
         return action_edit;
     }
 
-    private HooptapRegister fillUserInfoForRegister() throws JSONException {
+    private HooptapUpdateModel fillUserInfoForUpdateModel() throws JSONException {
         JSONObject jsonParametersToBeParse = new JSONObject();
         for (int i = 0; i < fields.length; i++) {
-            //FIX CUTRE - Hay que poner cada edit de su manera
-            if (fields[i].getName().equals("gender")) {
-                jsonParametersToBeParse.put(fields[i].getName(), Integer.parseInt(((EditText) objectsResponses.get(fields[i].getName())).getText().toString()));
-            } else {
-                jsonParametersToBeParse.put(fields[i].getName(), ((EditText) objectsResponses.get(fields[i].getName())).getText().toString());
+            if (!((EditText) objectsResponses.get(fields[i].getName())).getText().toString().equals("")){
+                if (fields[i].getName().equals("gender")) {
+                    jsonParametersToBeParse.put(fields[i].getName(), Integer.parseInt(((EditText) objectsResponses.get(fields[i].getName())).getText().toString()));
+                } else {
+                    jsonParametersToBeParse.put(fields[i].getName(), ((EditText) objectsResponses.get(fields[i].getName())).getText().toString());
+                }
             }
-
         }
 
-        Log.e("FILL", jsonParametersToBeParse.toString());
         Gson gson = new Gson();
-        HooptapRegister userRegister = gson.fromJson(jsonParametersToBeParse.toString(), HooptapRegister.class);
-        return userRegister;
+        HooptapUpdateModel userModelUpdate = gson.fromJson(jsonParametersToBeParse.toString(), HooptapUpdateModel.class);
+        return userModelUpdate;
     }
 
     @Override

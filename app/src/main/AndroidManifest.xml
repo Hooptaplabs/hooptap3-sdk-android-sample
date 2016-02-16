@@ -31,6 +31,8 @@
             android:screenOrientation="portrait"></activity>
         <activity android:name=".Profile"
             android:screenOrientation="portrait"></activity>
+        <activity android:name=".UpdateUser"
+            android:screenOrientation="portrait"></activity>
         <activity android:name=".Badges"
             android:screenOrientation="portrait"></activity>
         <activity android:name=".Actions"

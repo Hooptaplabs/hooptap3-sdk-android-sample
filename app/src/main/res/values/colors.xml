@@ -8,6 +8,7 @@
     <color name="listaimpar">#ff448AFF</color>
     <color name="white">#FFFF</color>
     <color name="caption">#808080</color>
+    <color name="grey_alpha">#44808080</color>
     <color name="body">#212121</color>
     <color name="bg">#fafafa</color>
 </resources>
