@@ -2,7 +2,9 @@ package com.hooptap.brandsampleaws;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.InputType;
@@ -10,16 +12,15 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.android.datetimepicker.date.DatePickerDialog;
-import com.android.datetimepicker.time.RadialPickerLayout;
-import com.android.datetimepicker.time.TimePickerDialog;
 import com.hooptap.brandsampleaws.Adapters.SpinnerAdapterActions;
 import com.hooptap.brandsampleaws.Generic.HooptapActivity;
 import com.hooptap.brandsampleaws.Utils.Utils;
@@ -46,7 +47,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class Actions extends HooptapActivity implements AdapterView.OnItemSelectedListener, DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+public class Actions extends HooptapActivity implements AdapterView.OnItemSelectedListener, TimePickerDialog.OnTimeSetListener {
 
     @Bind(R.id.spinner)
     Spinner spinner;
@@ -174,13 +175,25 @@ public class Actions extends HooptapActivity implements AdapterView.OnItemSelect
     }
 
     private void checkSpecialInput(View v) {
+        Log.e("HEY","checkSpecialInput");
         if (v.findViewById(R.id.picker) != null) {
             edit = (EditText) v.findViewById(R.id.picker);
             edit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
                 public void onFocusChange(View view, boolean b) {
-                    calendar = Calendar.getInstance();
-                    DatePickerDialog.newInstance(Actions.this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show(getFragmentManager(), "datePicker");
+                    if (b){
+                        calendar = Calendar.getInstance();
+                        DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener() {
+                            public void onDateSet(DatePicker view, int selectedYear, int selectedMonth, int selectedDay) {
+                                if (view.isShown()) {
+                                    str_date = selectedDay + "-" + selectedMonth + "-" + selectedYear;
+                                    new TimePickerDialog(Actions.this, Actions.this, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false).show();
+                                }
+                            }
+                        };
+
+                        new DatePickerDialog(Actions.this, datePickerListener, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
+                    }
                 }
             });
         } else if (v.findViewById(R.id.array) != null) {
@@ -226,12 +239,9 @@ public class Actions extends HooptapActivity implements AdapterView.OnItemSelect
             if (!containsEnum(type)) {
                 type = "String";
             }
-            Log.e("TYPE", type);
-
             String methodName = "generateInput" + type;
             Method m = c.getDeclaredMethod(methodName, paramTypes);
             View v = (View) m.invoke(o, key, Actions.this, objectsResponses);
-            Log.e("VIEW", v.getClass().getCanonicalName());
             return v;
         } catch (Exception e) {
             e.printStackTrace();
@@ -314,20 +324,14 @@ public class Actions extends HooptapActivity implements AdapterView.OnItemSelect
     }
 
     @Override
-    public void onDateSet(DatePickerDialog dialog, int year, int monthOfYear, int dayOfMonth) {
-        str_date = dayOfMonth + "-" + monthOfYear + "-" + year;
-        TimePickerDialog.newInstance(this, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show(getFragmentManager(), "timePicker");
-
-    }
-
-    @Override
-    public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
+    public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
         str_date = str_date + " " + hourOfDay + ":" + minute;
-        Log.e("DATE", str_date);
         DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm");
         try {
             Date date = formatter.parse(str_date);
             edit.setText(date.getTime() + "");
+            //edit.clearFocus();
+            //spinner.requestFocus();
         } catch (ParseException e) {
             e.printStackTrace();
         }

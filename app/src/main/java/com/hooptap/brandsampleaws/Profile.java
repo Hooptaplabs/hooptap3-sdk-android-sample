@@ -41,6 +41,8 @@ public class Profile extends HooptapActivity {
     TextView birth;
     @Bind(R.id.points)
     TextView points;
+    @Bind(R.id.postal_code)
+    TextView postal_code;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +94,7 @@ public class Profile extends HooptapActivity {
         fillTextView(id, (user.get_id() != null) ? "Id : " + user.get_id() : "");
         fillTextView(phone, (user.getPhone_number() != null) ? "Phone number : " + user.getPhone_number() : "");
         fillTextView(birth, (user.getBirth() != null) ? "Birthday : " + user.getBirth() : "");
+        fillTextView(postal_code, (user.getPostal_code() != null) ? "Postal Code : " + user.getPostal_code() : "");
 
         //Gender is a int value = -1 Undefined; 0 = Male; 1 = female
         int genderInt = user.getGender();

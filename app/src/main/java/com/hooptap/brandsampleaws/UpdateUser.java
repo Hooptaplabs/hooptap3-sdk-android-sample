@@ -1,5 +1,6 @@
 package com.hooptap.brandsampleaws;
 
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,12 +8,12 @@ import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.datetimepicker.date.DatePickerDialog;
 import com.google.gson.Gson;
 import com.hooptap.brandsampleaws.Generic.HooptapActivity;
 import com.hooptap.brandsampleaws.Utils.Utils;
@@ -38,7 +39,7 @@ import butterknife.OnClick;
  * Created by root on 15/12/15.
  */
 
-public class UpdateUser extends HooptapActivity implements DatePickerDialog.OnDateSetListener {
+public class UpdateUser extends HooptapActivity {
     @Bind(R.id.ll_generic)
     LinearLayout ll_generic;
     @Bind(R.id.btn)
@@ -55,7 +56,7 @@ public class UpdateUser extends HooptapActivity implements DatePickerDialog.OnDa
         getSupportActionBar().setTitle("Update User");
         btn.setText("Update User");
 
-        fields = HooptapRegister.class.getFields();
+        fields = HooptapUpdateModel.class.getFields();
 
         for (int i = 0; i < fields.length; i++) {
             if (fields[i].getName().contains("birth")) {
@@ -123,15 +124,17 @@ public class UpdateUser extends HooptapActivity implements DatePickerDialog.OnDa
             @Override
             public void onFocusChange(View view, boolean b) {
                 if (b) {
+
                     Calendar calendar = Calendar.getInstance();
-                    DatePickerDialog date = DatePickerDialog.newInstance(UpdateUser.this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-                    date.setOnDateSetListener(new DatePickerDialog.OnDateSetListener() {
-                        @Override
-                        public void onDateSet(DatePickerDialog dialog, int year, int monthOfYear, int dayOfMonth) {
-                            edit.setText(year + "/" + monthOfYear + "/" + dayOfMonth);
+
+                    DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener() {
+                        public void onDateSet(DatePicker view, int selectedYear, int selectedMonth, int selectedDay) {
+                            edit.setText(selectedYear + "/" + selectedMonth + "/" + selectedDay);
                         }
-                    });
-                    date.show(getFragmentManager(), "datePicker");
+                    };
+
+                    new DatePickerDialog(UpdateUser.this, datePickerListener, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
+
                 }
             }
         });
@@ -158,8 +161,4 @@ public class UpdateUser extends HooptapActivity implements DatePickerDialog.OnDa
         return userModelUpdate;
     }
 
-    @Override
-    public void onDateSet(DatePickerDialog dialog, int year, int monthOfYear, int dayOfMonth) {
-
-    }
 }

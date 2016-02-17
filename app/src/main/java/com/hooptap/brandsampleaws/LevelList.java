@@ -54,11 +54,9 @@ public class LevelList extends HooptapActivity {
     public void loadLevels() {
         pd = Utils.showProgress("Loading Levels", LevelList.this);
 
-        HooptapFilter filter = new HooptapFilter();
-        /*HooptapFilter filter = new HooptapFilter.Builder()
+        HooptapFilter filter = new HooptapFilter.Builder()
                 .sort("min_points", Order.asc)
-                .where("name", "Primer", true)
-                .build();*/
+                .build();
 
         HooptapApi.getLevels(new HooptapOptions(), filter, new HooptapCallback<HooptapListResponse>() {
             @Override
@@ -88,8 +86,8 @@ public class LevelList extends HooptapActivity {
             @Override
             public void onSuccess(HooptapLevel level) {
                 for (int i = 0; i < levels.size(); i++) {
-                    Log.e("LEVEL", "My " + level.getNumber() + " Other " + levels.get(i).getNumber());
-                    if (level.getNumber() >= levels.get(i).getNumber()) {
+                    Log.e("LEVEL", "My " + level.getMin_points() + " Other " + levels.get(i).getMin_points());
+                    if (level.getMin_points() >= levels.get(i).getMin_points()) {
                         levels.get(i).setPassed(true);
                     } else {
                         levels.get(i).setPassed(false);

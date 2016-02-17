@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -62,7 +63,8 @@ public class Login extends AppCompatActivity {
 
             @Override
             public void onError(ResponseError responseError) {
-                Utils.createDialogError(Login.this, responseError.getReason());
+                Toast.makeText(Login.this, responseError.getReason(), Toast.LENGTH_LONG).show();
+                //Utils.createDialogError(Login.this, responseError.getReason());
                 Utils.dismisProgres(pd);
             }
         });

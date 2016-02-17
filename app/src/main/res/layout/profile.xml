@@ -116,5 +116,12 @@
             android:layout_margin="16dip"
             android:textColor="@color/caption" />
 
+        <TextView
+            android:id="@+id/postal_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dip"
+            android:textColor="@color/caption" />
+
     </LinearLayout>
 </ScrollView>
