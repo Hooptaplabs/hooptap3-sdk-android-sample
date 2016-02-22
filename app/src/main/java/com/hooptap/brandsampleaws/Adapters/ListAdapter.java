@@ -55,7 +55,7 @@ public class ListAdapter extends BaseAdapter {
 
         if (convertView == null) {
             convertView = LayoutInflater.from(activity)
-                    .inflate(R.layout.lista, parent, false);
+                    .inflate(R.layout.listview_cell, parent, false);
         }
 
         ImageView image = ViewHolder.get(convertView, R.id.image);

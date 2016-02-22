@@ -6,6 +6,7 @@ import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
@@ -26,12 +27,11 @@ import com.hooptap.brandsampleaws.Generic.HooptapActivity;
 import com.hooptap.brandsampleaws.Utils.Utils;
 import com.hooptap.sdkbrandclub.Api.HooptapApi;
 import com.hooptap.sdkbrandclub.Interfaces.HooptapCallback;
+import com.hooptap.sdkbrandclub.Models.HooptapAction;
 import com.hooptap.sdkbrandclub.Models.HooptapFilter;
 import com.hooptap.sdkbrandclub.Models.HooptapOptions;
 import com.hooptap.sdkbrandclub.Models.ResponseError;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Method;
@@ -115,23 +115,34 @@ public class Actions extends HooptapActivity implements AdapterView.OnItemSelect
 
     private void doAction(JSONObject json) {
         final ProgressDialog pd = Utils.showProgress("Loading rewards", Actions.this);
-        HooptapApi.doAction(HTApplication.getTinydb().getString("user_id"), json.toString(), spinner.getSelectedItem().toString(), new HooptapCallback<JSONObject>() {
+        Log.e("USER", HTApplication.getTinydb().getString("user_id"));
+        HooptapApi.doAction(HTApplication.getTinydb().getString("user_id"), json.toString(), spinner.getSelectedItem().toString(), new HooptapCallback<HooptapAction>() {
             @Override
-            public void onSuccess(JSONObject jsonObject) {
+            public void onSuccess(HooptapAction action) {
                 Utils.dismisProgres(pd);
-                try {
-                    JSONObject response = jsonObject.getJSONObject("response");
-                    JSONArray array = response.getJSONArray("rewards");
-                    if (array.length() > 0) {
-                        JSONObject datos = array.getJSONObject(0);
-                        Utils.createDialog(Actions.this, datos.getString("message"));
-                    } else {
-                        Utils.createDialog(Actions.this, "No tiene premios esta accion");
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                if (action.getRewards().size() > 0) {
+                    createDialogRewards(action);
+                } else {
+                    Utils.createDialog(Actions.this, "Esta accion no tiene rewards");
                 }
 
+            }
+
+            private void createDialogRewards(final HooptapAction action) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(Actions.this);
+                alert.setTitle("Congratulations!");
+
+                int sizeRewards = action.getRewards().size();
+                if (action.getLevel() != null)
+                    sizeRewards++;
+                alert.setMessage("You win " + sizeRewards + " rewards");
+                alert.setPositiveButton("See", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        startActivity(new Intent(Actions.this, Rewards.class).putExtra("action", action));
+                    }
+                });
+                alert.show();
             }
 
             @Override
@@ -175,13 +186,13 @@ public class Actions extends HooptapActivity implements AdapterView.OnItemSelect
     }
 
     private void checkSpecialInput(View v) {
-        Log.e("HEY","checkSpecialInput");
+        Log.e("HEY", "checkSpecialInput");
         if (v.findViewById(R.id.picker) != null) {
             edit = (EditText) v.findViewById(R.id.picker);
             edit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
                 public void onFocusChange(View view, boolean b) {
-                    if (b){
+                    if (b) {
                         calendar = Calendar.getInstance();
                         DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener() {
                             public void onDateSet(DatePicker view, int selectedYear, int selectedMonth, int selectedDay) {
@@ -215,7 +226,8 @@ public class Actions extends HooptapActivity implements AdapterView.OnItemSelect
                             if (edittext.getText().toString().trim().equals("")) {
                                 Toast.makeText(getApplicationContext(), "You need put something", Toast.LENGTH_LONG).show();
                             } else {
-                                edit.setText(edit.getText() + edittext.getText().toString() + ",");
+                                String currentTextInEdit = (edit.getText().toString().equals("")) ? edit.getText().toString() : edit.getText() + ",";
+                                edit.setText(currentTextInEdit + edittext.getText().toString());
                             }
                         }
                     });

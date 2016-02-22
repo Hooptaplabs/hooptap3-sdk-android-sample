@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.widget.ListView;
 
+import com.hooptap.brandsampleaws.Adapters.FeedAdapter;
 import com.hooptap.brandsampleaws.Adapters.ItemsAdapter;
 import com.hooptap.brandsampleaws.Generic.HooptapActivity;
 import com.hooptap.brandsampleaws.Utils.Utils;
@@ -45,7 +46,7 @@ public class Feed extends HooptapActivity {
             public void onSuccess(HooptapListResponse htResponse) {
                     list.setEmptyView(findViewById(R.id.emptyElement));
                     if (htResponse.getItemArray().size() > 0) {
-                        ItemsAdapter userAdapter = new ItemsAdapter(Feed.this, htResponse.getItemArray());
+                        FeedAdapter userAdapter = new FeedAdapter(Feed.this, htResponse.getItemArray());
                         list.setAdapter(userAdapter);
                     }
                     Utils.dismisProgres(pd);

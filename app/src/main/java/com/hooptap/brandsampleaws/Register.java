@@ -147,7 +147,7 @@ public class Register extends AppCompatActivity{
 
     private HooptapRegister fillUserInfoForRegister() throws JSONException {
         JSONObject jsonParametersToBeParse = new JSONObject();
-        for (int i = 0; i < fields.length; i++) {
+        for (int i = 0; i < objectsResponses.size(); i++) {
             //FIX CUTRE - Hay que poner cada edit de su manera
             if (fields[i].getName().equals("gender")) {
                 jsonParametersToBeParse.put(fields[i].getName(), Integer.parseInt(((EditText) objectsResponses.get(fields[i].getName())).getText().toString()));
