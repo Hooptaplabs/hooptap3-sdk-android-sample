@@ -15,6 +15,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.hooptap.brandsampleaws.Utils.Utils;
 import com.hooptap.sdkbrandclub.Api.HooptapApi;
 import com.hooptap.sdkbrandclub.Interfaces.HooptapCallback;
+import com.hooptap.sdkbrandclub.Models.HooptapLogin;
 import com.hooptap.sdkbrandclub.Models.HooptapUser;
 import com.hooptap.sdkbrandclub.Models.ResponseError;
 
@@ -45,7 +46,12 @@ public class Login extends AppCompatActivity {
     @OnClick(R.id.btn)
     public void llamarAccion() {
         final ProgressDialog pd = Utils.showProgress("Login", Login.this);
-        HooptapApi.login(email.getText().toString(), password.getText().toString(), new HooptapCallback<HooptapUser>() {
+
+        HooptapLogin userLogin = new HooptapLogin();
+        userLogin.setEmail(email.getText().toString());
+        userLogin.setPassword(password.getText().toString());
+
+        HooptapApi.login(userLogin, new HooptapCallback<HooptapUser>() {
             @Override
             public void onSuccess(HooptapUser user) {
                 HTApplication.getTinydb().putString("user_id", user.get_id());

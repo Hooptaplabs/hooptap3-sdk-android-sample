@@ -10,6 +10,7 @@ import com.hooptap.brandsampleaws.Generic.HooptapActivity;
 import com.hooptap.brandsampleaws.Utils.Utils;
 import com.hooptap.sdkbrandclub.Api.HooptapApi;
 import com.hooptap.sdkbrandclub.Interfaces.HooptapCallback;
+import com.hooptap.sdkbrandclub.Models.HooptapFilter;
 import com.hooptap.sdkbrandclub.Models.HooptapListResponse;
 import com.hooptap.sdkbrandclub.Models.HooptapOptions;
 import com.hooptap.sdkbrandclub.Models.ResponseError;
@@ -41,7 +42,7 @@ public class Feed extends HooptapActivity {
 
     public void getFeedUser() {
         final ProgressDialog pd = Utils.showProgress("Loading User Feed", Feed.this);
-        HooptapApi.getUserFeed(HTApplication.getTinydb().getString("user_id"), new HooptapOptions(), new HooptapCallback<HooptapListResponse>() {
+        HooptapApi.getUserFeed(HTApplication.getTinydb().getString("user_id"), new HooptapOptions(), new HooptapFilter(), new HooptapCallback<HooptapListResponse>() {
             @Override
             public void onSuccess(HooptapListResponse htResponse) {
                     list.setEmptyView(findViewById(R.id.emptyElement));

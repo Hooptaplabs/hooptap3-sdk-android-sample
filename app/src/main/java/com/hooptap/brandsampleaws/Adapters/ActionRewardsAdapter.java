@@ -13,7 +13,6 @@ import com.hooptap.brandsampleaws.R;
 import com.hooptap.sdkbrandclub.Models.HooptapBadge;
 import com.hooptap.sdkbrandclub.Models.HooptapLevel;
 import com.hooptap.sdkbrandclub.Models.HooptapPoint;
-import com.hooptap.sdkbrandclub.Models.HooptapReward;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

@@ -27,7 +27,7 @@ import com.hooptap.brandsampleaws.Generic.HooptapActivity;
 import com.hooptap.brandsampleaws.Utils.Utils;
 import com.hooptap.sdkbrandclub.Api.HooptapApi;
 import com.hooptap.sdkbrandclub.Interfaces.HooptapCallback;
-import com.hooptap.sdkbrandclub.Models.HooptapAction;
+import com.hooptap.sdkbrandclub.Models.HooptapActionResult;
 import com.hooptap.sdkbrandclub.Models.HooptapFilter;
 import com.hooptap.sdkbrandclub.Models.HooptapOptions;
 import com.hooptap.sdkbrandclub.Models.ResponseError;
@@ -113,12 +113,12 @@ public class Actions extends HooptapActivity implements AdapterView.OnItemSelect
         }
     }
 
-    private void doAction(JSONObject json) {
+    private void doAction(JSONObject jsonActionData) {
         final ProgressDialog pd = Utils.showProgress("Loading rewards", Actions.this);
         Log.e("USER", HTApplication.getTinydb().getString("user_id"));
-        HooptapApi.doAction(HTApplication.getTinydb().getString("user_id"), json.toString(), spinner.getSelectedItem().toString(), new HooptapCallback<HooptapAction>() {
+        HooptapApi.doAction(HTApplication.getTinydb().getString("user_id"), jsonActionData, spinner.getSelectedItem().toString(), new HooptapCallback<HooptapActionResult>() {
             @Override
-            public void onSuccess(HooptapAction action) {
+            public void onSuccess(HooptapActionResult action) {
                 Utils.dismisProgres(pd);
                 if (action.getRewards().size() > 0) {
                     createDialogRewards(action);
@@ -128,7 +128,7 @@ public class Actions extends HooptapActivity implements AdapterView.OnItemSelect
 
             }
 
-            private void createDialogRewards(final HooptapAction action) {
+            private void createDialogRewards(final HooptapActionResult action) {
                 AlertDialog.Builder alert = new AlertDialog.Builder(Actions.this);
                 alert.setTitle("Congratulations!");
 

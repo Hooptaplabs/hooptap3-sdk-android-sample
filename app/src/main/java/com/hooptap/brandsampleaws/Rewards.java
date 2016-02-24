@@ -6,7 +6,7 @@ import android.widget.ListView;
 
 import com.hooptap.brandsampleaws.Adapters.ActionRewardsAdapter;
 import com.hooptap.brandsampleaws.Generic.HooptapActivity;
-import com.hooptap.sdkbrandclub.Models.HooptapAction;
+import com.hooptap.sdkbrandclub.Models.HooptapActionResult;
 
 import java.util.ArrayList;
 
@@ -17,7 +17,7 @@ import butterknife.ButterKnife;
  * Created by carloscarrasco on 22/2/16.
  */
 public class Rewards extends HooptapActivity {
-    private HooptapAction action;
+    private HooptapActionResult action;
 
     @Bind(R.id.lista)
     ListView list;
@@ -32,7 +32,7 @@ public class Rewards extends HooptapActivity {
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            action = (HooptapAction) bundle.get("action");
+            action = (HooptapActionResult) bundle.get("action");
         }
 
         ArrayList arrayRewards = action.getRewards();

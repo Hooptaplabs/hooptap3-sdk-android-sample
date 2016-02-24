@@ -32,12 +32,11 @@ public class Badges extends HooptapActivity {
         ButterKnife.bind(this);
         getSupportActionBar().setTitle("Badges");
 
-        final ProgressDialog pd = Utils.showProgress("Loading Goods", Badges.this);
+        final ProgressDialog pd = Utils.showProgress("Loading Badges", Badges.this);
         HooptapApi.getBadges(HTApplication.getTinydb().getString("user_id"), new HooptapOptions(),
                 new HooptapCallback<HooptapListResponse>() {
                     @Override
                     public void onSuccess(HooptapListResponse htResponse) {
-                        Log.e("BADGES",htResponse.getItemArray().size()+" /");
                         gridView.setAdapter(new BadgesAdapter(Badges.this, htResponse.getItemArray()));
                         Utils.dismisProgres(pd);
                     }

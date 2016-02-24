@@ -55,6 +55,7 @@ public class LevelList extends HooptapActivity {
         pd = Utils.showProgress("Loading Levels", LevelList.this);
 
         HooptapFilter filter = new HooptapFilter.Builder()
+                .where("name", "hooptap", true)
                 .sort("min_points", Order.asc)
                 .build();
 
@@ -82,7 +83,7 @@ public class LevelList extends HooptapActivity {
     }
 
     public void getLevelUser() {
-        HooptapApi.getLevelDetail(HTApplication.getTinydb().getString("user_id"), new HooptapCallback<HooptapLevel>() {
+        HooptapApi.getCurrentLevelDetail(HTApplication.getTinydb().getString("user_id"), new HooptapCallback<HooptapLevel>() {
             @Override
             public void onSuccess(HooptapLevel level) {
                 for (int i = 0; i < levels.size(); i++) {

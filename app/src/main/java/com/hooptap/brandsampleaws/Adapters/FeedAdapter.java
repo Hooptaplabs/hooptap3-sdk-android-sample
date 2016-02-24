@@ -10,9 +10,9 @@ import android.widget.TextView;
 
 import com.hooptap.brandsampleaws.R;
 import com.hooptap.sdkbrandclub.Models.HooptapBadge;
+import com.hooptap.sdkbrandclub.Models.HooptapFeed;
 import com.hooptap.sdkbrandclub.Models.HooptapLevel;
 import com.hooptap.sdkbrandclub.Models.HooptapPoint;
-import com.hooptap.sdkbrandclub.Models.HooptapReward;
 import com.squareup.picasso.Picasso;
 
 import java.lang.reflect.Method;
@@ -58,9 +58,9 @@ public class FeedAdapter<T> extends BaseAdapter {
         imagen = ViewHolder.get(convertView, R.id.image);
         text = ViewHolder.get(convertView, R.id.text);
 
-        HooptapReward reward = (HooptapReward) getItem(position);
+        HooptapFeed reward = (HooptapFeed) getItem(position);
 
-        switch (reward.getReward().getClass().getSimpleName()){
+        switch (reward.getFeed().getClass().getSimpleName()){
             case "HooptapPoint":
                 fillHooptapPoint(reward);
                 break;
@@ -78,8 +78,8 @@ public class FeedAdapter<T> extends BaseAdapter {
         return convertView;
     }
 
-    private void fillHooptapPoint(HooptapReward reward){
-        HooptapPoint point = ((HooptapPoint) reward.getReward());
+    private void fillHooptapPoint(HooptapFeed reward){
+        HooptapPoint point = ((HooptapPoint) reward.getFeed());
         String url_image = point.getImage();
         if (url_image != null && !url_image.equals("")){
             Picasso.with(activity).load(url_image).into(imagen);
@@ -89,8 +89,8 @@ public class FeedAdapter<T> extends BaseAdapter {
         text.setText("You "+ reward.getReason()+" "+ point.getQuantity()+" "+ point.getType());
     }
 
-    private void fillHooptapBadge(HooptapReward reward){
-        HooptapBadge badge = (HooptapBadge) reward.getReward();
+    private void fillHooptapBadge(HooptapFeed reward){
+        HooptapBadge badge = (HooptapBadge) reward.getFeed();
         String url_image = badge.getImage();
         if (url_image != null && !url_image.equals("")){
             Picasso.with(activity).load(url_image).into(imagen);
@@ -100,8 +100,8 @@ public class FeedAdapter<T> extends BaseAdapter {
         text.setText("You "+ reward.getReason()+" the badge "+badge.getName());
     }
 
-    private void fillHooptapLevel(HooptapReward reward){
-        HooptapLevel level = (HooptapLevel) reward.getReward();
+    private void fillHooptapLevel(HooptapFeed reward){
+        HooptapLevel level = (HooptapLevel) reward.getFeed();
         String url_image = level.getImage();
         if (url_image != null && !url_image.equals("")){
             Picasso.with(activity).load(url_image).into(imagen);
@@ -111,8 +111,8 @@ public class FeedAdapter<T> extends BaseAdapter {
         text.setText("You "+ reward.getReason()+" to "+ level.getName());
     }
 
-    private void fillHooptapUser(HooptapReward reward){
-        String url_image = ((HooptapPoint) reward.getReward()).getImage();
+    private void fillHooptapUser(HooptapFeed reward){
+        String url_image = ((HooptapPoint) reward.getFeed()).getImage();
         if (url_image != null && !url_image.equals("")){
             Picasso.with(activity).load(url_image).into(imagen);
         }else{

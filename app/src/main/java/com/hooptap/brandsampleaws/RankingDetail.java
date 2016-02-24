@@ -13,6 +13,7 @@ import com.hooptap.brandsampleaws.Generic.HooptapActivity;
 import com.hooptap.brandsampleaws.Utils.Utils;
 import com.hooptap.sdkbrandclub.Api.HooptapApi;
 import com.hooptap.sdkbrandclub.Interfaces.HooptapCallback;
+import com.hooptap.sdkbrandclub.Models.HooptapFilter;
 import com.hooptap.sdkbrandclub.Models.HooptapItem;
 import com.hooptap.sdkbrandclub.Models.HooptapOptions;
 import com.hooptap.sdkbrandclub.Models.HooptapRanking;
@@ -57,7 +58,7 @@ public class RankingDetail extends HooptapActivity {
 
     public void getRankings() {
         final ProgressDialog pd = Utils.showProgress("Loading Rankings", RankingDetail.this);
-        HooptapApi.getRankingDetail(HTApplication.getTinydb().getString("user_id"), ranking_id, new HooptapOptions(), new HooptapCallback<HooptapRanking>() {
+        HooptapApi.getRankingDetail(HTApplication.getTinydb().getString("user_id"), ranking_id, new HooptapOptions(), new HooptapFilter(), new HooptapCallback<HooptapRanking>() {
             @Override
             public void onSuccess(HooptapRanking ranking) {
 
