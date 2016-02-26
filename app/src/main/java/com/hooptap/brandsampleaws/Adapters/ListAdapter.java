@@ -31,6 +31,7 @@ public class ListAdapter extends BaseAdapter {
         lista.add("Badges");
         lista.add("Actions");
         lista.add("Feed");
+        lista.add("Quests");
         lista.add("List Items");
     }
 

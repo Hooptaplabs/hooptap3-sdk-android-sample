@@ -59,6 +59,9 @@ public class Principal extends AppCompatActivity {
                 startActivity(new Intent(this, Feed.class));
                 break;
             case 7:
+                startActivity(new Intent(this, QuestsList.class));
+                break;
+            case 8:
                 startActivity(new Intent(this, ItemList.class));
                 break;
 

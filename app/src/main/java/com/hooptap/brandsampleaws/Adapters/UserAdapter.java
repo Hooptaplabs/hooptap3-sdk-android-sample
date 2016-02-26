@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.hooptap.brandsampleaws.R;
 import com.hooptap.sdkbrandclub.Models.HooptapUser;
+import com.hooptap.sdkbrandclub.Models.HooptapUserRanking;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -58,6 +59,11 @@ public class UserAdapter extends BaseAdapter {
             text.setText(user.getUsername());
         if (user.getImage() != null && !user.getImage().equals(""))
             Picasso.with(activity).load(user.getImage()).into(imagen);
+
+        if(user instanceof HooptapUserRanking){
+            points.setVisibility(View.VISIBLE);
+            points.setText(((HooptapUserRanking)user).getMark()+"");
+        }
 
         return convertView;
     }

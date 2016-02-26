@@ -1,6 +1,7 @@
 package com.hooptap.brandsampleaws.Adapters;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,6 +56,7 @@ public class ItemsAdapter<T> extends BaseAdapter {
 
         if (item.getName() != null)
             text.setText(item.getName());
+        Log.e("IMAGE",item.getImage()+" /");
         if (item.getImage() != null && !item.getImage().equals(""))
             Picasso.with(activity).load(item.getImage()).into(imagen);
 

@@ -20,7 +20,7 @@ import com.hooptap.brandsampleaws.Utils.Utils;
 import com.hooptap.sdkbrandclub.Api.HooptapApi;
 import com.hooptap.sdkbrandclub.Interfaces.HooptapCallback;
 import com.hooptap.sdkbrandclub.Models.HooptapRegister;
-import com.hooptap.sdkbrandclub.Models.HooptapUpdateUser;
+import com.hooptap.sdkbrandclub.Models.HooptapUserUpdate;
 import com.hooptap.sdkbrandclub.Models.HooptapUser;
 import com.hooptap.sdkbrandclub.Models.ResponseError;
 
@@ -56,7 +56,7 @@ public class UpdateUser extends HooptapActivity {
         getSupportActionBar().setTitle("Update User");
         btn.setText("Update User");
 
-        fields = HooptapUpdateUser.class.getFields();
+        fields = HooptapUserUpdate.class.getFields();
 
         for (int i = 0; i < fields.length; i++) {
             if (fields[i].getName().contains("birth")) {
@@ -73,7 +73,7 @@ public class UpdateUser extends HooptapActivity {
     public void submit() {
         try {
 
-            HooptapUpdateUser userInfo = fillUserInfoForUpdateModel();
+            HooptapUserUpdate userInfo = fillUserInfoForUpdateModel();
 
             final ProgressDialog pd = Utils.showProgress("Update Model", UpdateUser.this);
 
@@ -144,7 +144,7 @@ public class UpdateUser extends HooptapActivity {
         return action_edit;
     }
 
-    private HooptapUpdateUser fillUserInfoForUpdateModel() throws JSONException {
+    private HooptapUserUpdate fillUserInfoForUpdateModel() throws JSONException {
         JSONObject jsonParametersToBeParse = new JSONObject();
         for (int i = 0; i < fields.length; i++) {
             if (!((EditText) objectsResponses.get(fields[i].getName())).getText().toString().equals("")){
@@ -157,7 +157,7 @@ public class UpdateUser extends HooptapActivity {
         }
 
         Gson gson = new Gson();
-        HooptapUpdateUser userModelUpdate = gson.fromJson(jsonParametersToBeParse.toString(), HooptapUpdateUser.class);
+        HooptapUserUpdate userModelUpdate = gson.fromJson(jsonParametersToBeParse.toString(), HooptapUserUpdate.class);
         return userModelUpdate;
     }
 

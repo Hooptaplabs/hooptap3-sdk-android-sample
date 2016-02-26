@@ -13,13 +13,14 @@ import com.hooptap.sdkbrandclub.Api.Hooptap;
 public class HTApplication extends Application {
     public static TinyDB tinydb;
     private static HTApplication instance;
+    private String API_KEY = "46576686f6f707461702e627";//56cd7ef8a933937c403897c8
 
     @Override
     public void onCreate() {
         super.onCreate();
-        new Hooptap.Builder(this)  // Create builder
-                .setApiKey("46576686f6f707461702e627")
-                .enableDebug(true)              // Enable debug mode
+        new Hooptap.Builder(this)
+                .setApiKey(API_KEY)
+                .enableDebug(true)
                 .build();
 
         instance = HTApplication.this;

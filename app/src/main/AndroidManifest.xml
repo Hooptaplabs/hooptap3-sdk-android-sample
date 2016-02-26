@@ -53,6 +53,8 @@
             android:screenOrientation="portrait"></activity>
         <activity android:name=".Rewards"
             android:screenOrientation="portrait"></activity>
+        <activity android:name=".QuestsList"
+            android:screenOrientation="portrait"></activity>
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
