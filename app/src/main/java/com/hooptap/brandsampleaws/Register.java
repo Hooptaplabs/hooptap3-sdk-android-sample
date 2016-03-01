@@ -150,7 +150,10 @@ public class Register extends AppCompatActivity{
         for (int i = 0; i < objectsResponses.size(); i++) {
             //FIX CUTRE - Hay que poner cada edit de su manera
             if (fields[i].getName().equals("gender")) {
-                jsonParametersToBeParse.put(fields[i].getName(), Integer.parseInt(((EditText) objectsResponses.get(fields[i].getName())).getText().toString()));
+                String text_edit = ((EditText) objectsResponses.get(fields[i].getName())).getText().toString();
+                if (!text_edit.equals("")){
+                    jsonParametersToBeParse.put(fields[i].getName(), Integer.parseInt(text_edit));
+                }
             } else {
                 jsonParametersToBeParse.put(fields[i].getName(), ((EditText) objectsResponses.get(fields[i].getName())).getText().toString());
             }

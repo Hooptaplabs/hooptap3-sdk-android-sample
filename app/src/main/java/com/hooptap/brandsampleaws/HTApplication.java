@@ -13,7 +13,7 @@ import com.hooptap.sdkbrandclub.Api.Hooptap;
 public class HTApplication extends Application {
     public static TinyDB tinydb;
     private static HTApplication instance;
-    private String API_KEY = "46576686f6f707461702e627";//56cd7ef8a933937c403897c8
+    private String API_KEY = "56cd7ef8a933937c403897c8";//46576686f6f707461702e627
 
     @Override
     public void onCreate() {

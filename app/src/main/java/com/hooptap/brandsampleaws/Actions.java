@@ -27,8 +27,11 @@ import com.hooptap.brandsampleaws.Generic.HooptapActivity;
 import com.hooptap.brandsampleaws.Utils.Utils;
 import com.hooptap.sdkbrandclub.Api.HooptapApi;
 import com.hooptap.sdkbrandclub.Interfaces.HooptapCallback;
+import com.hooptap.sdkbrandclub.Models.HooptapAction;
+import com.hooptap.sdkbrandclub.Models.HooptapActionFields;
 import com.hooptap.sdkbrandclub.Models.HooptapActionResult;
 import com.hooptap.sdkbrandclub.Models.HooptapFilter;
+import com.hooptap.sdkbrandclub.Models.HooptapListResponse;
 import com.hooptap.sdkbrandclub.Models.HooptapOptions;
 import com.hooptap.sdkbrandclub.Models.ResponseError;
 
@@ -59,6 +62,7 @@ public class Actions extends HooptapActivity implements AdapterView.OnItemSelect
     private EditText edit;
 
     private HashMap<String, Object> objectsResponses = new HashMap<>();
+    private HooptapAction action;
 
     public enum TYPES {
         Number, Boolean, Array, String, Timestamp
@@ -74,11 +78,31 @@ public class Actions extends HooptapActivity implements AdapterView.OnItemSelect
         final Spinner spinner = (Spinner) findViewById(R.id.spinner);
         spinner.setOnItemSelectedListener(this);
 
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            action = (HooptapAction) bundle.get("action");
+            setUniqueActionName(action);
+        } else {
+            getActionNamesAvaiables();
+        }
+
+    }
+
+    private void setUniqueActionName(HooptapAction action) {
+        ArrayList<HooptapAction> array = new ArrayList<>();
+        array.add(action);
+        SpinnerAdapterActions adapter = new SpinnerAdapterActions(Actions.this, array);
+        spinner.setAdapter(adapter);
+    }
+
+    private void getActionNamesAvaiables() {
         final ProgressDialog pd = Utils.showProgress("Loading Actions avaibles", this);
-        HooptapApi.getActions(new HooptapOptions(), new HooptapFilter(), new HooptapCallback<ArrayList<String>>() {
+        HooptapFilter filter = new HooptapFilter.Builder().sort("name", HooptapFilter.Builder.Order.asc).build();
+        HooptapApi.getActions(new HooptapOptions(), filter, new HooptapCallback<HooptapListResponse>() {
+
             @Override
-            public void onSuccess(ArrayList<String> strings) {
-                SpinnerAdapterActions adapter = new SpinnerAdapterActions(Actions.this, strings);
+            public void onSuccess(HooptapListResponse hooptapListResponse) {
+                SpinnerAdapterActions adapter = new SpinnerAdapterActions(Actions.this, hooptapListResponse.getItemArray());
                 spinner.setAdapter(adapter);
                 Utils.dismisProgres(pd);
             }
@@ -89,6 +113,23 @@ public class Actions extends HooptapActivity implements AdapterView.OnItemSelect
                 Utils.dismisProgres(pd);
             }
         });
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+        HooptapAction action = (HooptapAction) adapterView.getItemAtPosition(position);
+        ArrayList<HooptapActionFields> actionFields = action.getActionFields();
+        matching_fields.removeAllViews();
+        objectsResponses.clear();
+
+        for (int i = 0; i < actionFields.size(); i++) {
+            HooptapActionFields actionField = actionFields.get(i);
+            View v = launchReflectionMethod(actionField.getKey(), actionField.getType());
+            matching_fields.addView(v);
+            //Los metodos al llamarse por  reflection hace que no se puede acceder a nada
+            //de ellos ni vista ni variables, por eso debemos declarar los click especiales aqui
+            checkSpecialInput(v);
+        }
     }
 
     @OnClick(R.id.btn)
@@ -115,17 +156,32 @@ public class Actions extends HooptapActivity implements AdapterView.OnItemSelect
 
     private void doAction(JSONObject jsonActionData) {
         final ProgressDialog pd = Utils.showProgress("Loading rewards", Actions.this);
-        Log.e("USER", HTApplication.getTinydb().getString("user_id"));
-        HooptapApi.doAction(HTApplication.getTinydb().getString("user_id"), jsonActionData, spinner.getSelectedItem().toString(), new HooptapCallback<HooptapActionResult>() {
+        String nameAction = ((HooptapAction) spinner.getSelectedItem()).getName();
+        HooptapApi.doAction(HTApplication.getTinydb().getString("user_id"), jsonActionData, nameAction, new HooptapCallback<HooptapActionResult>() {
             @Override
             public void onSuccess(HooptapActionResult action) {
                 Utils.dismisProgres(pd);
                 if (action.getRewards().size() > 0) {
                     createDialogRewards(action);
                 } else {
-                    Utils.createDialog(Actions.this, "Esta accion no tiene rewards");
+                    if (action.getQuest() != null) {
+                        Utils.createDialog(Actions.this, getResources().getString(R.string.no_rewards) + " pero " + getResources().getString(R.string.one_step_completed));
+                    } else {
+                        Utils.createDialog(Actions.this, getResources().getString(R.string.no_rewards));
+                    }
                 }
+                if (action.getQuest() != null) {
+                    Intent i = getIntent();
+                    i.putExtra("num_steps_completeds", action.getQuest().getNumCompletedSteps());
+                    i.putExtra("finished", action.getQuest().isFinished());
+                    setResult(RESULT_OK, i);
+                }
+            }
 
+            @Override
+            public void onError(ResponseError responseError) {
+                Utils.createDialogError(Actions.this, responseError.getReason());
+                Utils.dismisProgres(pd);
             }
 
             private void createDialogRewards(final HooptapActionResult action) {
@@ -135,7 +191,11 @@ public class Actions extends HooptapActivity implements AdapterView.OnItemSelect
                 int sizeRewards = action.getRewards().size();
                 if (action.getLevel() != null)
                     sizeRewards++;
-                alert.setMessage("You win " + sizeRewards + " rewards");
+                if (action.getQuest() != null) {
+                    alert.setMessage("You win " + sizeRewards + " rewards, además " + getResources().getString(R.string.one_step_completed));
+                } else {
+                    alert.setMessage("You win " + sizeRewards + " rewards");
+                }
                 alert.setPositiveButton("See", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -143,44 +203,6 @@ public class Actions extends HooptapActivity implements AdapterView.OnItemSelect
                     }
                 });
                 alert.show();
-            }
-
-            @Override
-            public void onError(ResponseError responseError) {
-                Utils.createDialogError(Actions.this, responseError.getReason());
-                Utils.dismisProgres(pd);
-            }
-        });
-    }
-
-    @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        String action = adapterView.getItemAtPosition(i).toString();
-        final ProgressDialog pd = Utils.showProgress("Loading matching fields required", Actions.this);
-        HooptapApi.getMatchingFieldsForAction(action, new HooptapOptions(), new HooptapFilter(), new HooptapCallback<HashMap<String, String>>() {
-            @Override
-            public void onSuccess(HashMap<String, String> stringStringHashMap) {
-                matching_fields.removeAllViews();
-                objectsResponses.clear();
-                for (final HashMap.Entry<String, String> entry : stringStringHashMap.entrySet()) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            View v = launchReflectionMethod(entry.getKey(), entry.getValue());
-                            matching_fields.addView(v);
-                            //Los metodos al llamarse por  reflection hace que no se puede acceder a nada
-                            //de ellos ni vista ni variables, por eso debemos declarar los click especiales aqui
-                            checkSpecialInput(v);
-                        }
-                    });
-                }
-                Utils.dismisProgres(pd);
-            }
-
-            @Override
-            public void onError(ResponseError responseError) {
-                Utils.createDialogError(Actions.this, responseError.getReason());
-                Utils.dismisProgres(pd);
             }
         });
     }

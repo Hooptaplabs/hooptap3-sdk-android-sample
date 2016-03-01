@@ -50,7 +50,7 @@ public class Principal extends AppCompatActivity {
                 startActivity(new Intent(this, RankingList.class));
                 break;
             case 4:
-                startActivity(new Intent(this, Badges.class));
+                startActivity(new Intent(this, BadgeList.class));
                 break;
             case 5:
                 startActivity(new Intent(this, Actions.class));

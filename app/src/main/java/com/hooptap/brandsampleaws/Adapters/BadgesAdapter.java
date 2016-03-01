@@ -55,7 +55,7 @@ public class BadgesAdapter extends BaseAdapter {
 
         HooptapBadge badge = getItem(position);
         texto.setText(badge.getName());
-        Picasso.with(activity).load(badge.getImageOn()).into(imagen);
+        Picasso.with(activity).load(badge.getImage()).into(imagen);
 
         return convertView;
     }

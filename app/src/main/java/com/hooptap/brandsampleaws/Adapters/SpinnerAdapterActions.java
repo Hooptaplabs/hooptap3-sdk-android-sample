@@ -7,6 +7,8 @@ import android.widget.BaseAdapter;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 
+import com.hooptap.sdkbrandclub.Models.HooptapAction;
+
 import java.util.ArrayList;
 
 public class SpinnerAdapterActions extends BaseAdapter implements SpinnerAdapter {
@@ -14,11 +16,11 @@ public class SpinnerAdapterActions extends BaseAdapter implements SpinnerAdapter
     /**
      * The internal data (the ArrayList with the Objects).
      */
-    private final ArrayList<String> data;
+    private final ArrayList<HooptapAction> actions;
     private final Activity activity;
 
-    public SpinnerAdapterActions(Activity activity, ArrayList<String> data) {
-        this.data = data;
+    public SpinnerAdapterActions(Activity activity, ArrayList<HooptapAction> actions) {
+        this.actions = actions;
         this.activity = activity;
     }
 
@@ -27,7 +29,7 @@ public class SpinnerAdapterActions extends BaseAdapter implements SpinnerAdapter
      */
     @Override
     public int getCount() {
-        return data.size();
+        return actions.size();
     }
 
     /**
@@ -36,7 +38,7 @@ public class SpinnerAdapterActions extends BaseAdapter implements SpinnerAdapter
      */
     @Override
     public Object getItem(int position) {
-        return data.get(position);
+        return actions.get(position);
     }
 
     @Override
@@ -61,7 +63,7 @@ public class SpinnerAdapterActions extends BaseAdapter implements SpinnerAdapter
             );
         }
 
-        text.setText(data.get(position));
+        text.setText(actions.get(position).getName());
         return text;
     }
 

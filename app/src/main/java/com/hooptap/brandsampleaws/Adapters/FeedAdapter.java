@@ -1,6 +1,7 @@
 package com.hooptap.brandsampleaws.Adapters;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,7 @@ public class FeedAdapter<T> extends BaseAdapter {
     public FeedAdapter(Activity activity, ArrayList rewards) {
         this.rewards = rewards;
         this.activity = activity;
+        Log.e("TAMAÑIO.feed",rewards.size()+"");
     }
 
     @Override
@@ -59,7 +61,7 @@ public class FeedAdapter<T> extends BaseAdapter {
         text = ViewHolder.get(convertView, R.id.text);
 
         HooptapFeed reward = (HooptapFeed) getItem(position);
-
+        Log.e("REWARD",reward+" / "+reward.getFeed());
         switch (reward.getFeed().getClass().getSimpleName()){
             case "HooptapPoint":
                 fillHooptapPoint(reward);
@@ -78,47 +80,47 @@ public class FeedAdapter<T> extends BaseAdapter {
         return convertView;
     }
 
-    private void fillHooptapPoint(HooptapFeed reward){
-        HooptapPoint point = ((HooptapPoint) reward.getFeed());
+    private void fillHooptapPoint(HooptapFeed pointFeed){
+        HooptapPoint point = ((HooptapPoint) pointFeed.getFeed());
         String url_image = point.getImage();
         if (url_image != null && !url_image.equals("")){
             Picasso.with(activity).load(url_image).into(imagen);
         }else{
             imagen.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_star));
         }
-        text.setText("You "+ reward.getReason()+" "+ point.getQuantity()+" "+ point.getType());
+        text.setText("You "+ pointFeed.getReason()+" "+ point.getQuantity()+" "+ point.getType());
     }
 
-    private void fillHooptapBadge(HooptapFeed reward){
-        HooptapBadge badge = (HooptapBadge) reward.getFeed();
+    private void fillHooptapBadge(HooptapFeed badgeFeed){
+        HooptapBadge badge = (HooptapBadge) badgeFeed.getFeed();
         String url_image = badge.getImage();
         if (url_image != null && !url_image.equals("")){
             Picasso.with(activity).load(url_image).into(imagen);
         }else{
             imagen.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_badge));
         }
-        text.setText("You "+ reward.getReason()+" the badge "+badge.getName());
+        text.setText("You "+ badgeFeed.getReason()+" the badge "+badge.getName());
     }
 
-    private void fillHooptapLevel(HooptapFeed reward){
-        HooptapLevel level = (HooptapLevel) reward.getFeed();
+    private void fillHooptapLevel(HooptapFeed levelFeed){
+        HooptapLevel level = (HooptapLevel) levelFeed.getFeed();
         String url_image = level.getImage();
         if (url_image != null && !url_image.equals("")){
             Picasso.with(activity).load(url_image).into(imagen);
         }else{
             imagen.setImageDrawable(activity.getResources().getDrawable(R.drawable.ic_level));
         }
-        text.setText("You "+ reward.getReason()+" to "+ level.getName());
+        text.setText("You "+ levelFeed.getReason()+" to "+ level.getName());
     }
 
-    private void fillHooptapUser(HooptapFeed reward){
-        String url_image = ((HooptapPoint) reward.getFeed()).getImage();
+    private void fillHooptapUser(HooptapFeed userFeed){
+        String url_image = ((HooptapPoint) userFeed.getFeed()).getImage();
         if (url_image != null && !url_image.equals("")){
             Picasso.with(activity).load(url_image).into(imagen);
         }else{
             imagen.setImageDrawable(activity.getResources().getDrawable(R.drawable.tapface));
         }
-        text.setText(reward.getReason()+" "+reward.getReason_type()+" ");
+        text.setText(userFeed.getReason()+" "+userFeed.getReason_type()+" ");
     }
 
 }

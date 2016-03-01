@@ -31,7 +31,9 @@
             android:screenOrientation="portrait"></activity>
         <activity android:name=".UpdateUser"
             android:screenOrientation="portrait"></activity>
-        <activity android:name=".Badges"
+        <activity android:name=".BadgeList"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".BadgeDetail"
             android:screenOrientation="portrait"></activity>
         <activity android:name=".Actions"
             android:screenOrientation="portrait"></activity>
@@ -54,6 +56,8 @@
         <activity android:name=".Rewards"
             android:screenOrientation="portrait"></activity>
         <activity android:name=".QuestsList"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".QuestDetail"
             android:screenOrientation="portrait"></activity>
         <meta-data
             android:name="com.google.android.gms.version"

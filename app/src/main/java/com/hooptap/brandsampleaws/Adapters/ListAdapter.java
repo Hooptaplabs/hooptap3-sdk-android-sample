@@ -61,10 +61,7 @@ public class ListAdapter extends BaseAdapter {
 
         ImageView image = ViewHolder.get(convertView, R.id.image);
         TextView text = ViewHolder.get(convertView, R.id.text);
-        LinearLayout background=ViewHolder.get(convertView, R.id.element);
         text.setText(lista.get(position));
-        if(position%2==0)
-            background.setBackgroundColor(activity.getResources().getColor(R.color.listaimpar));
 
         return convertView;
     }

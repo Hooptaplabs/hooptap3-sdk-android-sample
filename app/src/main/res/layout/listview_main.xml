@@ -7,8 +7,8 @@
         android:id="@+id/lista"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:dividerHeight="0dip"
-        android:divider="@android:color/transparent"
+        android:dividerHeight="1dip"
+        android:divider="@color/caption"
         android:layout_below="@id/btn"
         android:gravity="center"
         android:orientation="vertical"></ListView>

@@ -47,7 +47,7 @@ public class LevelsAdapter<T> extends BaseAdapter {
 
         if (convertView == null) {
             convertView = LayoutInflater.from(activity)
-                    .inflate(R.layout.levels_list, parent, false);
+                    .inflate(R.layout.listview_cell_levels, parent, false);
         }
 
         ImageView imagen = ViewHolder.get(convertView, R.id.image);

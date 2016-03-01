@@ -11,4 +11,9 @@
     <string name="logout">LogOut</string>
     <string name="show_json">Show Json</string>
     <string name="wait">Please Wait</string>
+    <string name="quest_join_error">No te has podido apuntar a la misión</string>
+    <string name="quest_finished">Esta misión ya está acabada, no puedes acceder</string>
+    <string name="no_rewards">Esta accion no tiene rewards</string>
+    <string name="one_step_completed">has completado un paso de la misión</string>
+    <string name="step_blocked">No puedes jugar a este paso de la misión</string>
 </resources>

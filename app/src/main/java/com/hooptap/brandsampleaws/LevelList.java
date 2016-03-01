@@ -55,7 +55,6 @@ public class LevelList extends HooptapActivity {
         pd = Utils.showProgress("Loading Levels", LevelList.this);
 
         HooptapFilter filter = new HooptapFilter.Builder()
-                .where("name", "hooptap", true)
                 .sort("min_points", Order.asc)
                 .build();
 
