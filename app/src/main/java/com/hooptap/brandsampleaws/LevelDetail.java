@@ -6,6 +6,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hooptap.brandsampleaws.Generic.HooptapActivity;
+import com.hooptap.brandsampleaws.Utils.GrayscaleTransformation;
 import com.hooptap.sdkbrandclub.Models.HooptapLevel;
 import com.squareup.picasso.Picasso;
 
@@ -46,7 +47,13 @@ public class LevelDetail extends HooptapActivity {
 
     private void fillLevel(HooptapLevel level) {
         if (level.getImage() != null && !level.getImage().equals("")) {
-            Picasso.with(getApplicationContext()).load(level.getImage()).into(level_img);
+            if (level.isPassed()) {
+                Picasso.with(getApplicationContext()).load(level.getImage()).into(level_img);
+                level_completed.setTextColor(getResources().getColor(R.color.active));
+            } else {
+                Picasso.with(getApplicationContext()).load(level.getImage()).transform(new GrayscaleTransformation()).into(level_img);
+                level_completed.setTextColor(getResources().getColor(R.color.desactive));
+            }
         }
         level_name.setText(level.getName());
         level_desc.setText(level.getDescription());

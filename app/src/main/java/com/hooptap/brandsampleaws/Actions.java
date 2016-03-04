@@ -45,6 +45,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.TimeZone;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -219,8 +220,9 @@ public class Actions extends HooptapActivity implements AdapterView.OnItemSelect
                         DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener() {
                             public void onDateSet(DatePicker view, int selectedYear, int selectedMonth, int selectedDay) {
                                 if (view.isShown()) {
-                                    str_date = selectedDay + "-" + selectedMonth + "-" + selectedYear;
-                                    new TimePickerDialog(Actions.this, Actions.this, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false).show();
+                                    Log.e("MONTH", selectedMonth+" /");
+                                    str_date = checkDigit(selectedDay) + "-" + checkDigit(selectedMonth+1) + "-" + selectedYear;
+                                    new TimePickerDialog(Actions.this, Actions.this, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show();
                                 }
                             }
                         };
@@ -359,20 +361,26 @@ public class Actions extends HooptapActivity implements AdapterView.OnItemSelect
 
     @Override
     public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
-        str_date = str_date + " " + hourOfDay + ":" + minute;
-        DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm");
-        try {
-            Date date = formatter.parse(str_date);
-            edit.setText(date.getTime() + "");
-            //edit.clearFocus();
-            //spinner.requestFocus();
-        } catch (ParseException e) {
-            e.printStackTrace();
+        if (timePicker.isShown()) {
+            str_date = str_date + " " + hourOfDay + ":" + minute;
+            Log.e("DATA", str_date);
+            DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+            formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
+            try {
+                Date date = formatter.parse(str_date);
+                edit.setText(date.getTime() + "");
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
+    }
+
+    public String checkDigit(int number) {
+        return number <= 9 ? "0" + number : String.valueOf(number);
     }
 }

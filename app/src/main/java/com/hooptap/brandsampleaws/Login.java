@@ -38,8 +38,8 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.login);
         ButterKnife.bind(this);
         getSupportActionBar().setTitle("Login");
-        email.setText("p2@p.com");
-        password.setText("asdfqwer");
+        email.setText("ca");
+        password.setText("ca");
 
     }
 
@@ -62,7 +62,6 @@ public class Login extends AppCompatActivity {
             @Override
             public void onError(ResponseError responseError) {
                 Toast.makeText(Login.this, responseError.getReason(), Toast.LENGTH_LONG).show();
-                //Utils.createDialogError(Login.this, responseError.getReason());
                 Utils.dismisProgres(pd);
             }
         });

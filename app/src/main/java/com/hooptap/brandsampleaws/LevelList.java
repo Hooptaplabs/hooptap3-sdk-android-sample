@@ -3,7 +3,6 @@ package com.hooptap.brandsampleaws;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -14,11 +13,11 @@ import com.hooptap.brandsampleaws.Utils.Utils;
 import com.hooptap.sdkbrandclub.Api.HooptapApi;
 import com.hooptap.sdkbrandclub.Interfaces.HooptapCallback;
 import com.hooptap.sdkbrandclub.Models.HooptapFilter;
+import com.hooptap.sdkbrandclub.Models.HooptapFilter.Builder.Order;
 import com.hooptap.sdkbrandclub.Models.HooptapLevel;
 import com.hooptap.sdkbrandclub.Models.HooptapListResponse;
 import com.hooptap.sdkbrandclub.Models.HooptapOptions;
 import com.hooptap.sdkbrandclub.Models.ResponseError;
-import com.hooptap.sdkbrandclub.Models.HooptapFilter.Builder.Order;
 
 import java.util.ArrayList;
 
@@ -66,7 +65,7 @@ public class LevelList extends HooptapActivity {
 
                 if (levels.size() > 0) {
                     getLevelUser();
-                }else{
+                } else {
                     Utils.dismisProgres(pd);
                 }
             }
@@ -86,7 +85,6 @@ public class LevelList extends HooptapActivity {
             @Override
             public void onSuccess(HooptapLevel level) {
                 for (int i = 0; i < levels.size(); i++) {
-                    Log.e("LEVEL", "My " + level.getMin_points() + " Other " + levels.get(i).getMin_points());
                     if (level.getMin_points() >= levels.get(i).getMin_points()) {
                         levels.get(i).setPassed(true);
                     } else {

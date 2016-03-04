@@ -8,7 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 
-import com.hooptap.brandsampleaws.Adapters.ListAdapter;
+import com.hooptap.brandsampleaws.Adapters.PrincipalListAdapter;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -29,7 +29,7 @@ public class Principal extends AppCompatActivity {
         if (HTApplication.getTinydb().getString("user_id").equals("")) {
             startActivity(new Intent(this, Initial.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
         }
-        ListAdapter listAdapter = new ListAdapter(this);
+        PrincipalListAdapter listAdapter = new PrincipalListAdapter(this);
         lista.setAdapter(listAdapter);
 
     }
@@ -63,6 +63,9 @@ public class Principal extends AppCompatActivity {
                 break;
             case 8:
                 startActivity(new Intent(this, ItemList.class));
+                break;
+            case 9:
+                startActivity(new Intent(this, Details_Badge_Level_Quest.class));
                 break;
 
         }

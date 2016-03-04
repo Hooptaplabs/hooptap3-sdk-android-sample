@@ -16,12 +16,12 @@ import java.util.ArrayList;
 /**
  * Created by root on 15/12/15.
  */
-public class ListAdapter extends BaseAdapter {
+public class PrincipalListAdapter extends BaseAdapter {
     ArrayList<ImageView> objectos;
     ArrayList<String> lista= new ArrayList<>();
     Activity activity;
 
-    public ListAdapter(Activity activity) {
+    public PrincipalListAdapter(Activity activity) {
 
         this.activity = activity;
         lista.add("Profile");
@@ -33,6 +33,7 @@ public class ListAdapter extends BaseAdapter {
         lista.add("Feed");
         lista.add("Quests");
         lista.add("List Items");
+        lista.add("Detalles");
     }
 
     @Override

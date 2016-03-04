@@ -2,6 +2,7 @@ package com.hooptap.brandsampleaws;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -52,7 +53,7 @@ public class Profile extends HooptapActivity {
         getSupportActionBar().setTitle("Profile");
 
         final ProgressDialog pd = Utils.showProgress("Loading Profile", this);
-
+        Log.e("USER",HTApplication.getTinydb().getString("user_id")+"");
         HooptapApi.getProfile(HTApplication.getTinydb().getString("user_id"), new HooptapCallback<HooptapUser>() {
             @Override
             public void onSuccess(HooptapUser user) {
@@ -71,6 +72,7 @@ public class Profile extends HooptapActivity {
     }
 
     private void getPoints(){
+
         HooptapApi.getPoints(HTApplication.getTinydb().getString("user_id"), new HooptapCallback<HooptapPoint>() {
             @Override
             public void onSuccess(HooptapPoint hooptapPoint) {

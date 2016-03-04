@@ -59,6 +59,8 @@
             android:screenOrientation="portrait"></activity>
         <activity android:name=".QuestDetail"
             android:screenOrientation="portrait"></activity>
+        <activity android:name=".Details_Badge_Level_Quest"
+            android:screenOrientation="portrait"></activity>
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
