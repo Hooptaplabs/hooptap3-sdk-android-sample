@@ -79,7 +79,7 @@ public class Register extends AppCompatActivity{
             HooptapApi.registerUser(userInfo, new HooptapCallback<HooptapUser>() {
                 @Override
                 public void onSuccess(HooptapUser user) {
-                    HTApplication.getTinydb().putString("user_id", user.get_id());
+                    HTApplication.getTinydb().putString("user_id", user.getExternalId());
                     startActivity(new Intent(Register.this, Principal.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
                     Utils.dismisProgres(pd);
                 }

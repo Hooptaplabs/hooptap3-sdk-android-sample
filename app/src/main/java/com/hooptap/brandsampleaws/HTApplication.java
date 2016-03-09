@@ -20,7 +20,6 @@ public class HTApplication extends Application {
         super.onCreate();
         new Hooptap.Builder(this)
                 .setApiKey(API_KEY)
-                .enableDebug(true)
                 .build();
 
         instance = HTApplication.this;

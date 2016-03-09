@@ -48,13 +48,13 @@ public class Login extends AppCompatActivity {
         final ProgressDialog pd = Utils.showProgress("Login", Login.this);
 
         HooptapLogin userLogin = new HooptapLogin();
-        userLogin.setEmail(email.getText().toString());
+        userLogin.setLogin(email.getText().toString());
         userLogin.setPassword(password.getText().toString());
 
         HooptapApi.login(userLogin, new HooptapCallback<HooptapUser>() {
             @Override
             public void onSuccess(HooptapUser user) {
-                HTApplication.getTinydb().putString("user_id", user.get_id());
+                HTApplication.getTinydb().putString("user_id", user.getExternalId());
                 startActivity(new Intent(Login.this, Principal.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
                 Utils.dismisProgres(pd);
             }

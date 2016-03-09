@@ -93,7 +93,7 @@ public class Profile extends HooptapActivity {
         fillTextView(username, (user.getUsername() != null ? user.getUsername() : ""));
         fillTextView(surname, (user.getSurname() != null) ? "SurName : " + user.getSurname() : "");
         fillTextView(email, (user.getEmail() != null) ? "Email : " + user.getEmail() : "");
-        fillTextView(id, (user.get_id() != null) ? "Id : " + user.get_id() : "");
+        fillTextView(id, (user.getExternalId() != null) ? "Id : " + user.getExternalId() : "");
         fillTextView(phone, (user.getPhone_number() != null) ? "Phone number : " + user.getPhone_number() : "");
         fillTextView(birth, (user.getBirth() != null) ? "Birthday : " + user.getBirth() : "");
         fillTextView(postal_code, (user.getPostal_code() != null) ? "Postal Code : " + user.getPostal_code() : "");

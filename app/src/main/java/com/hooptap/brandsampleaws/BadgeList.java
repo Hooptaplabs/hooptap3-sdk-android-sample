@@ -13,6 +13,7 @@ import com.hooptap.brandsampleaws.Utils.Utils;
 import com.hooptap.sdkbrandclub.Api.HooptapApi;
 import com.hooptap.sdkbrandclub.Interfaces.HooptapCallback;
 import com.hooptap.sdkbrandclub.Models.HooptapBadge;
+import com.hooptap.sdkbrandclub.Models.HooptapFilter;
 import com.hooptap.sdkbrandclub.Models.HooptapListResponse;
 import com.hooptap.sdkbrandclub.Models.HooptapOptions;
 import com.hooptap.sdkbrandclub.Models.ResponseError;
@@ -34,7 +35,7 @@ public class BadgeList extends HooptapActivity {
 
         final ProgressDialog pd = Utils.showProgress("Loading Badges", BadgeList.this);
         HooptapApi.getBadges(HTApplication.getTinydb().getString("user_id"), new HooptapOptions(),
-                new HooptapCallback<HooptapListResponse>() {
+                new HooptapFilter(), new HooptapCallback<HooptapListResponse>() {
                     @Override
                     public void onSuccess(HooptapListResponse htResponse) {
                         gridView.setAdapter(new BadgesAdapter(BadgeList.this, htResponse.getItemArray()));
