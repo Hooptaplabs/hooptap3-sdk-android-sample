@@ -110,7 +110,7 @@ public class Profile extends HooptapActivity {
 
         //If parameter image is not empty in the Json Response, download the image with Picasso library, if not
         //put a static image
-        if ((!user.getImage().equals("")) ? true : false) {
+        if ((user.getImage() != null && !user.getImage().equals(""))) {
             Picasso.with(this).load(user.getImage()).into(photoPr);
             Picasso.with(this).load(user.getImage()).transform(new BlurTransformation(this)).into(photoPrBlur);
         } else {

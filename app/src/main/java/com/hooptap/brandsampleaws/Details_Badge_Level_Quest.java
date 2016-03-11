@@ -24,7 +24,7 @@ public class Details_Badge_Level_Quest extends HooptapActivity {
     }
 
     private void getDetailBadge() {
-        HooptapApi.getBadgeDetail("56d5817155aa7c877a186534", new HooptapCallback<HooptapBadge>() {
+        HooptapApi.getBadgeDetail("56d5817155aa7c877a186534", HTApplication.getTinydb().getString("user_id"), new HooptapCallback<HooptapBadge>() {
             @Override
             public void onSuccess(HooptapBadge hooptapBadge) {
                 Log.e("BADGE", hooptapBadge.getName());

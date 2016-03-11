@@ -80,6 +80,7 @@ public class UpdateUser extends HooptapActivity {
             HooptapApi.updateUser(HTApplication.getTinydb().getString("user_id"), userInfo, new HooptapCallback<HooptapUser>() {
                 @Override
                 public void onSuccess(HooptapUser user) {
+                    Utils.setUserId(user.getExternalId());
                     Toast.makeText(getApplicationContext(), "User has been update", Toast.LENGTH_LONG).show();
                     Utils.dismisProgres(pd);
                     finish();

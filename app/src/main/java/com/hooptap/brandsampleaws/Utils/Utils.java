@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.hooptap.brandsampleaws.HTApplication;
 import com.hooptap.brandsampleaws.R;
 
 import java.util.HashMap;
@@ -135,6 +136,10 @@ public class Utils {
                 }
             });
         }
+    }
+
+    public static void setUserId(String user_id){
+        HTApplication.getTinydb().putString("user_id", user_id);
     }
 
     public static ProgressDialog showProgress(String text, Context context) {

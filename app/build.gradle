@@ -19,10 +19,18 @@ android {
     }
 }
 
+
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+
 dependencies {
+    compile(name:'HooptapAWS', ext:'aar')
     compile 'com.google.code.gson:gson:2.+'
     compile 'com.android.support:appcompat-v7:23.1.1'
-    compile 'com.hooptap.awssdk:HooptapAwsSDK:1.0.+'
+    //compile 'com.hooptap.awssdk:HooptapAwsSDK:1.0.+'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.afollestad:material-dialogs:0.7.9.1'
     compile 'com.squareup.picasso:picasso:2.5.2'

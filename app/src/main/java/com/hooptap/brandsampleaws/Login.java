@@ -54,7 +54,7 @@ public class Login extends AppCompatActivity {
         HooptapApi.login(userLogin, new HooptapCallback<HooptapUser>() {
             @Override
             public void onSuccess(HooptapUser user) {
-                HTApplication.getTinydb().putString("user_id", user.getExternalId());
+                Utils.setUserId(user.getExternalId());
                 startActivity(new Intent(Login.this, Principal.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
                 Utils.dismisProgres(pd);
             }
