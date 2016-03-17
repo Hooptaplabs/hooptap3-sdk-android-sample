@@ -2,15 +2,12 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
-    <color name="lista">#AA448AFF</color>
     <color name="lista_alpha">#44448AFF</color>
-    <color name="listaimpar">#ff448AFF</color>
     <color name="white">#FFFF</color>
-    <color name="caption">#808080</color>
-    <color name="grey_alpha">#44808080</color>
-    <color name="body">#212121</color>
-    <color name="bg">#fafafa</color>
+    <color name="caption">#c7c9ca</color>
+    <color name="body">#696969</color>
+    <color name="border">#dadada</color>
+    <color name="playholder_grey">#dadada</color>
     <color name="active">#fd6adc5a</color>
     <color name="desactive">#ed5656</color>
 </resources>

@@ -6,9 +6,8 @@
 
     <LinearLayout
         android:id="@+id/element"
-        android:layout_width="0dip"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="4"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -17,6 +16,7 @@
             android:layout_width="50dip"
             android:layout_height="50dip"
             android:layout_margin="10dip"
+            android:gravity="center_vertical"
             android:src="@drawable/placeholder_circle_grey" />
 
         <LinearLayout
@@ -42,15 +42,5 @@
                 android:maxLines="2"/>
         </LinearLayout>
 
-
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/level_completed"
-        android:layout_width="0dip"
-        android:layout_height="match_parent"
-        android:layout_weight="1.5"
-        android:gravity="center"
-        android:textSize="12sp"
-        android:textColor="@color/body" />
 </LinearLayout>

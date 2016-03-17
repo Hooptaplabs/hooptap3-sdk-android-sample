@@ -5,14 +5,9 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.res.Resources;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hooptap.brandsampleaws.HTApplication;
@@ -24,14 +19,6 @@ import java.util.HashMap;
  * Created by root on 15/12/15.
  */
 public class Utils {
-    public static HashMap<Integer, String> listado = new HashMap<>();
-
-    public static float convertDpToPixel(float dp, Context context) {
-        Resources resources = context.getResources();
-        DisplayMetrics metrics = resources.getDisplayMetrics();
-        float px = dp * (metrics.densityDpi / 160f);
-        return px;
-    }
 
     public static String formatJSON(String text) {
 
@@ -65,22 +52,6 @@ public class Utils {
         }
 
         return json.toString();
-    }
-
-    public static void log(String TAG, String sb) {
-        if (sb.length() > 4000) {
-            int chunkCount = sb.length() / 4000;     // integer division
-            for (int i = 0; i <= chunkCount; i++) {
-                int max = 4000 * (i + 1);
-                if (max >= sb.length()) {
-                    Log.e(TAG, "chunk " + i + " of " + chunkCount + ":" + sb.substring(4000 * i));
-                } else {
-                    Log.e(TAG, "chunk " + i + " of " + chunkCount + ":" + sb.substring(4000 * i, max));
-                }
-            }
-        } else {
-            Log.e(TAG, sb.toString());
-        }
     }
 
     public static void createDialog(Activity activity, String json) {
@@ -138,7 +109,7 @@ public class Utils {
         }
     }
 
-    public static void setUserId(String user_id){
+    public static void setUserId(String user_id) {
         HTApplication.getTinydb().putString("user_id", user_id);
     }
 
@@ -153,11 +124,14 @@ public class Utils {
     }
 
     public static void dismisProgres(ProgressDialog progres) {
-        if (progres != null && progres.isShowing())
-            progres.dismiss();
+        try {
+            if (progres != null && progres.isShowing())
+                progres.dismiss();
+        } catch (Exception e) {
+        }
     }
 
-    public static boolean thereAreEmptyFields(HashMap<String, Object>hasmap) {
+    public static boolean thereAreEmptyFields(HashMap<String, Object> hasmap) {
         for (final HashMap.Entry<String, Object> entry : hasmap.entrySet()) {
             if (entry.getValue() instanceof EditText) {
                 if (((EditText) entry.getValue()).getText().toString().trim().equals("")) {

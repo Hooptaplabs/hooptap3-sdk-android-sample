@@ -1,19 +1,23 @@
 <resources>
     <string name="app_name">Sample AWS</string>
     <string name="error">Error</string>
-    <string name="dummy_section_text">Section %1d is just a dummy section.</string>
-
-    <string name="demo_external_activity">Demo External Activity</string>
-    <string name="demo_collection">Demo Collection</string>
-    <string name="compra">BUY</string>
     <string name="compra_no">Congratulations!</string>
-    <string name="error_no_element">No existen elementos, vuelvelo intentar mas tarde</string>
-    <string name="logout">LogOut</string>
-    <string name="show_json">Show Json</string>
+    <string name="logout">Log Out</string>
     <string name="wait">Please Wait</string>
-    <string name="quest_join_error">No te has podido apuntar a la misión</string>
-    <string name="quest_finished">Esta misión ya está acabada, no puedes acceder</string>
-    <string name="no_rewards">Esta accion no tiene rewards</string>
-    <string name="one_step_completed">has completado un paso de la misión</string>
-    <string name="step_blocked">No puedes jugar a este paso de la misión</string>
+    <string name="error_no_element">There are no elements available. Please try again later.</string>
+    <string name="quest_join_error">You were unable to register for this mission.</string>
+    <string name="quest_finished">This mission is already completed. It cannot be accessed.</string>
+    <string name="no_rewards">This action does not offer rewards.</string>
+    <string name="one_step_completed">You have completed one step of the mission.</string>
+    <string name="step_blocked">You cannot play this step of the mission.</string>
+    <string name="completed">Completed</string>
+    <string name="uncompleted">Uncompleted</string>
+    <string name="doing">Doing</string>
+    <string name="locked">Locked</string>
+    <string name="external_id">External Id</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="name">Name</string>
+    <string name="point">Point</string>
+    <string name="points">Points</string>
 </resources>

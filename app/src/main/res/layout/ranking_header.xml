@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:padding="10dip">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/ranking_img"
         android:layout_width="60dip"
         android:layout_height="60dip" />

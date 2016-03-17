@@ -19,7 +19,7 @@
             android:layout_height="100dip"
             android:layout_centerHorizontal="true"
             android:padding="10dip"
-            android:src="@drawable/not_found" />
+            android:src="@drawable/placeholder_circle_grey" />
     </RelativeLayout>
 
     <TextView

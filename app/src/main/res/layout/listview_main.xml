@@ -8,7 +8,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:dividerHeight="1dip"
-        android:divider="@color/caption"
+        android:divider="@color/border"
+        android:background="@color/white"
         android:layout_below="@id/btn"
         android:gravity="center"
         android:orientation="vertical"></ListView>
@@ -21,7 +22,7 @@
         android:layout_centerInParent="true"
         android:layout_marginTop="20dip"
         android:text="There aren\'t any elements at this moment"
-        android:textColor="@android:color/darker_gray"
+        android:textColor="@color/body"
         android:textSize="15sp"
         android:textStyle="bold"
         android:visibility="gone" />

@@ -5,15 +5,15 @@
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/level_img"
         android:layout_width="160dip"
         android:layout_height="160dip"
         android:layout_margin="20dip"
-        android:scaleType="centerCrop"
-        android:background="@color/caption"
+        android:background="@drawable/placeholder_circle_grey"
+        android:cropToPadding="true"
         android:padding="1dip"
-        android:cropToPadding="true"/>
+        android:scaleType="centerCrop" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,8 +26,8 @@
             android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="NAME"
             android:padding="10dip"
+            android:text="NAME"
             android:textColor="@color/body"
             android:textStyle="bold" />
 
@@ -37,9 +37,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dip"
             android:layout_weight="2"
-            android:hint="DETAIL"
             android:padding="10dip"
-            android:textColor="@color/caption" />
+            android:textColor="@color/body" />
     </LinearLayout>
 
     <LinearLayout
@@ -53,8 +52,8 @@
             android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="DESCRIPTION"
             android:padding="10dip"
+            android:text="DESCRIPTION"
             android:textColor="@color/body"
             android:textStyle="bold" />
 
@@ -64,9 +63,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dip"
             android:layout_weight="2"
-            android:hint="DETAIL"
             android:padding="10dip"
-            android:textColor="@color/caption" />
+            android:textColor="@color/body" />
     </LinearLayout>
 
     <LinearLayout
@@ -80,8 +78,8 @@
             android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="COMPLETED"
             android:padding="10dip"
+            android:text="COMPLETED"
             android:textColor="@color/body"
             android:textStyle="bold" />
 
@@ -91,9 +89,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dip"
             android:layout_weight="2"
-            android:hint="DETAIL"
             android:padding="10dip"
-            android:textColor="@color/caption" />
+            android:textColor="@color/body" />
     </LinearLayout>
 
 </LinearLayout>
