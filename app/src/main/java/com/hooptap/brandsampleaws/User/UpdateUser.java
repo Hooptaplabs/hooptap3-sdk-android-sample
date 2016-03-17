@@ -3,8 +3,10 @@ package com.hooptap.brandsampleaws.User;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.hooptap.brandsampleaws.Generic.HooptapActivity;
@@ -32,8 +34,8 @@ public class UpdateUser extends HooptapActivity {
     EditText external_id;
     @Bind(R.id.email)
     EditText email;
-    @Bind(R.id.password)
-    EditText password;
+    @Bind(R.id.ll_password)
+    LinearLayout ll_password;
     @Bind(R.id.name)
     EditText name;
     @Bind(R.id.btn)
@@ -46,7 +48,7 @@ public class UpdateUser extends HooptapActivity {
         ButterKnife.bind(this);
         getSupportActionBar().setTitle("Update User");
         btn.setText("Update User");
-
+        ll_password.setVisibility(View.GONE);
     }
 
     @OnClick(R.id.btn)
@@ -85,15 +87,11 @@ public class UpdateUser extends HooptapActivity {
         }
 
         if (!TextUtils.isEmpty(email.getText().toString())) {
-            userUpdate.setExternalId(email.getText().toString());
-        }
-
-        if (!TextUtils.isEmpty(password.getText().toString())) {
-            userUpdate.setExternalId(password.getText().toString());
+            userUpdate.setEmail(email.getText().toString());
         }
 
         if (!TextUtils.isEmpty(name.getText().toString())) {
-            userUpdate.setExternalId(name.getText().toString());
+            userUpdate.setUsername(name.getText().toString());
         }
 
         return userUpdate;

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Sample AWS</string>
+    <string name="app_name">Sample Hooptap SDK</string>
     <string name="error">Error</string>
     <string name="compra_no">Congratulations!</string>
     <string name="logout">Log Out</string>

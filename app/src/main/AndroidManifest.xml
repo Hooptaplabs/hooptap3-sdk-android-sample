@@ -1,57 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.hooptap.brandsampleaws" >
+    package="com.hooptap.brandsampleaws">
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
     <application
-        android:allowBackup="true"
         android:name=".HTApplication"
+        android:allowBackup="true"
         android:icon="@drawable/hooptap"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme" >
-        <activity android:name=".MainActivity" >
+        android:theme="@style/AppTheme">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Generic.HooptapActivity"
+        <activity
+            android:name=".Generic.HooptapActivity"
             android:screenOrientation="portrait"></activity>
-        <activity android:name=".Login.Register"
+        <activity
+            android:name=".Login.Register"
             android:screenOrientation="portrait"></activity>
-        <activity android:name=".Login.InitSesson"
+        <activity
+            android:name=".Login.InitSesson"
             android:screenOrientation="portrait"></activity>
-        <activity android:name=".User.Profile"></activity>
-        <activity android:name=".User.UpdateUser"
+        <activity
+            android:name=".User.Profile"
             android:screenOrientation="portrait"></activity>
-        <activity android:name=".Badges.BadgeList"
+        <activity
+            android:name=".User.UpdateUser"
             android:screenOrientation="portrait"></activity>
-        <activity android:name=".Badges.BadgeDetail"
+        <activity
+            android:name=".Badges.BadgeList"
             android:screenOrientation="portrait"></activity>
-        <activity android:name=".Actions.Actions"
+        <activity
+            android:name=".Badges.BadgeDetail"
             android:screenOrientation="portrait"></activity>
-        <activity android:name=".Feed.Feed"
+        <activity
+            android:name=".Actions.Actions"
             android:screenOrientation="portrait"></activity>
-        <activity android:name=".Login.Login"
+        <activity
+            android:name=".Feed.Feed"
             android:screenOrientation="portrait"></activity>
-        <activity android:name=".Ranking.RankingDetail"
+        <activity
+            android:name=".Login.Login"
             android:screenOrientation="portrait"></activity>
-        <activity android:name=".Ranking.RankingList"></activity>
-        <activity android:name=".Levels.LevelDetail"
+        <activity
+            android:name=".Ranking.RankingDetail"
             android:screenOrientation="portrait"></activity>
-        <activity android:name=".Levels.LevelList"
+        <activity
+            android:name=".Ranking.RankingList"
             android:screenOrientation="portrait"></activity>
-        <activity android:name=".Actions.Rewards"
+        <activity
+            android:name=".Levels.LevelDetail"
             android:screenOrientation="portrait"></activity>
-        <activity android:name=".Quest.QuestsList"
+        <activity
+            android:name=".Levels.LevelList"
             android:screenOrientation="portrait"></activity>
-        <activity android:name=".Quest.QuestDetail"
+        <activity
+            android:name=".Actions.Rewards"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".Quest.QuestsList"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".Quest.QuestDetail"
             android:screenOrientation="portrait"></activity>
 
         <meta-data

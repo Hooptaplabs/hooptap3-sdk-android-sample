@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -83,17 +84,29 @@ public class Register extends AppCompatActivity {
         }
 
         if (!TextUtils.isEmpty(email.getText().toString())) {
-            userRegister.setExternalId(email.getText().toString());
+            userRegister.setEmail(email.getText().toString());
         }
 
         if (!TextUtils.isEmpty(password.getText().toString())) {
-            userRegister.setExternalId(password.getText().toString());
+            userRegister.setPassword(password.getText().toString());
         }
 
         if (!TextUtils.isEmpty(name.getText().toString())) {
-            userRegister.setExternalId(name.getText().toString());
+            userRegister.setUsername(name.getText().toString());
         }
 
         return userRegister;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            finish();
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
     }
 }

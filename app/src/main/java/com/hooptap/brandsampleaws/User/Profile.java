@@ -78,6 +78,7 @@ public class Profile extends HooptapActivity {
 
     private void fillProfile(HooptapUser user) {
 
+        fillTextView(name, (user.getUsername() != null) ? user.getUsername(): "");
         fillTextView(email, (user.getEmail() != null) ? "Email : " + user.getEmail() : "");
         fillTextView(id, (user.getExternalId() != null) ? "Id : " + user.getExternalId() : "");
 
